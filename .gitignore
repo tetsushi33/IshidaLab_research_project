@@ -13,3 +13,4 @@ prediction/trained_model_checkpoints
 prediction/wandb
 
 pdbfile/
+hdf5_graph_files/
