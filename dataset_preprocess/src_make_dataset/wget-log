@@ -1,0 +1,11 @@
+--2024-06-23 02:19:34--  https://files.rcsb.org/download/8F0O.cif
+files.rcsb.org (files.rcsb.org) をDNSに問いあわせています... 132.249.213.147
+files.rcsb.org (files.rcsb.org)|132.249.213.147|:443 に接続しています... 接続しました。
+HTTP による接続要求を送信しました、応答を待っています... 200 OK
+長さ: 特定できません [application/octet-stream]
+`../mmcif/apo/8F0O.cif' に保存中
+
+../mmcif/apo/8F0O.cif                                                           [<=>                                                                                                                                                                                        ]       0  --.-KB/s               ../mmcif/apo/8F0O.cif                                                           [ <=>                                                                                                                                                                                       ]  40.00K   188KB/s               ../mmcif/apo/8F0O.cif                                                           [  <=>                                                                                                                                                                                      ] 204.68K   481KB/s               ../mmcif/apo/8F0O.cif                                                           [   <=>                                                                                                                                                                                     ] 758.83K  1.16MB/s               ../mmcif/apo/8F0O.cif                                                           [    <=>                                                                                                                                                                                    ]   2.58M  3.41MB/s 時間 0.8s     
+
+2024-06-23 02:19:35 (3.41 MB/s) - `../mmcif/apo/8F0O.cif' へ保存終了 [2704184]
+
