@@ -1,0 +1,1163 @@
+Structure ID: ID
+  Model ID: 0
+    Chain ID: A
+      Residue: (' ', 447, ' ') HIS
+      Residue: (' ', 448, ' ') MET
+      Residue: (' ', 449, ' ') SER
+      Residue: (' ', 450, ' ') ILE
+      Residue: (' ', 451, ' ') CYS
+      Residue: (' ', 452, ' ') THR
+      Residue: (' ', 453, ' ') SER
+      Residue: (' ', 454, ' ') GLU
+      Residue: (' ', 455, ' ') GLU
+      Residue: (' ', 456, ' ') TRP
+      Residue: (' ', 457, ' ') GLN
+      Residue: (' ', 458, ' ') GLY
+      Residue: (' ', 459, ' ') LEU
+      Residue: (' ', 460, ' ') MET
+      Residue: (' ', 461, ' ') GLN
+      Residue: (' ', 462, ' ') PHE
+      Residue: (' ', 463, ' ') THR
+      Residue: (' ', 464, ' ') LEU
+      Residue: (' ', 465, ' ') PRO
+      Residue: (' ', 466, ' ') VAL
+      Residue: (' ', 467, ' ') ARG
+      Residue: (' ', 468, ' ') LEU
+      Residue: (' ', 469, ' ') CYS
+      Residue: (' ', 470, ' ') LYS
+      Residue: (' ', 471, ' ') GLU
+      Residue: (' ', 472, ' ') ILE
+      Residue: (' ', 473, ' ') GLU
+      Residue: (' ', 474, ' ') LEU
+      Residue: (' ', 475, ' ') PHE
+      Residue: (' ', 476, ' ') HIS
+      Residue: (' ', 477, ' ') PHE
+      Residue: (' ', 478, ' ') ASP
+      Residue: (' ', 479, ' ') ILE
+      Residue: (' ', 480, ' ') GLY
+      Residue: (' ', 481, ' ') PRO
+      Residue: (' ', 482, ' ') PHE
+      Residue: (' ', 483, ' ') GLU
+      Residue: (' ', 484, ' ') ASN
+      Residue: (' ', 485, ' ') MET
+      Residue: (' ', 486, ' ') TRP
+      Residue: (' ', 487, ' ') PRO
+      Residue: (' ', 488, ' ') GLY
+      Residue: (' ', 489, ' ') ILE
+      Residue: (' ', 490, ' ') PHE
+      Residue: (' ', 491, ' ') VAL
+      Residue: (' ', 492, ' ') TYR
+      Residue: (' ', 493, ' ') MET
+      Residue: (' ', 494, ' ') VAL
+      Residue: (' ', 495, ' ') HIS
+      Residue: (' ', 496, ' ') ARG
+      Residue: (' ', 497, ' ') SER
+      Residue: (' ', 498, ' ') CYS
+      Residue: (' ', 499, ' ') GLY
+      Residue: (' ', 500, ' ') THR
+      Residue: (' ', 501, ' ') SER
+      Residue: (' ', 502, ' ') CYS
+      Residue: (' ', 503, ' ') PHE
+      Residue: (' ', 504, ' ') GLU
+      Residue: (' ', 505, ' ') LEU
+      Residue: (' ', 506, ' ') GLU
+      Residue: (' ', 507, ' ') LYS
+      Residue: (' ', 508, ' ') LEU
+      Residue: (' ', 509, ' ') CYS
+      Residue: (' ', 510, ' ') ARG
+      Residue: (' ', 511, ' ') PHE
+      Residue: (' ', 512, ' ') ILE
+      Residue: (' ', 513, ' ') MET
+      Residue: (' ', 514, ' ') SER
+      Residue: (' ', 515, ' ') VAL
+      Residue: (' ', 516, ' ') LYS
+      Residue: (' ', 517, ' ') LYS
+      Residue: (' ', 518, ' ') ASN
+      Residue: (' ', 519, ' ') TYR
+      Residue: (' ', 520, ' ') ARG
+      Residue: (' ', 521, ' ') ARG
+      Residue: (' ', 522, ' ') VAL
+      Residue: (' ', 523, ' ') PRO
+      Residue: (' ', 524, ' ') TYR
+      Residue: (' ', 525, ' ') HIS
+      Residue: (' ', 526, ' ') ASN
+      Residue: (' ', 527, ' ') TRP
+      Residue: (' ', 528, ' ') LYS
+      Residue: (' ', 529, ' ') HIS
+      Residue: (' ', 530, ' ') ALA
+      Residue: (' ', 531, ' ') VAL
+      Residue: (' ', 532, ' ') THR
+      Residue: (' ', 533, ' ') VAL
+      Residue: (' ', 534, ' ') ALA
+      Residue: (' ', 535, ' ') HIS
+      Residue: (' ', 536, ' ') CYS
+      Residue: (' ', 537, ' ') MET
+      Residue: (' ', 538, ' ') TYR
+      Residue: (' ', 539, ' ') ALA
+      Residue: (' ', 540, ' ') ILE
+      Residue: (' ', 541, ' ') LEU
+      Residue: (' ', 542, ' ') GLN
+      Residue: (' ', 543, ' ') ASN
+      Residue: (' ', 544, ' ') ASN
+      Residue: (' ', 545, ' ') HIS
+      Residue: (' ', 546, ' ') THR
+      Residue: (' ', 547, ' ') LEU
+      Residue: (' ', 548, ' ') PHE
+      Residue: (' ', 549, ' ') THR
+      Residue: (' ', 550, ' ') ASP
+      Residue: (' ', 551, ' ') LEU
+      Residue: (' ', 552, ' ') GLU
+      Residue: (' ', 553, ' ') ARG
+      Residue: (' ', 554, ' ') LYS
+      Residue: (' ', 555, ' ') GLY
+      Residue: (' ', 556, ' ') LEU
+      Residue: (' ', 557, ' ') LEU
+      Residue: (' ', 558, ' ') ILE
+      Residue: (' ', 559, ' ') ALA
+      Residue: (' ', 560, ' ') CYS
+      Residue: (' ', 561, ' ') LEU
+      Residue: (' ', 562, ' ') CYS
+      Residue: (' ', 563, ' ') HIS
+      Residue: (' ', 564, ' ') ASN
+      Residue: (' ', 565, ' ') LEU
+      Residue: (' ', 566, ' ') ASP
+      Residue: (' ', 567, ' ') HIS
+      Residue: (' ', 568, ' ') ARG
+      Residue: (' ', 569, ' ') GLY
+      Residue: (' ', 570, ' ') PHE
+      Residue: (' ', 571, ' ') SER
+      Residue: (' ', 572, ' ') ASN
+      Residue: (' ', 573, ' ') SER
+      Residue: (' ', 574, ' ') TYR
+      Residue: (' ', 575, ' ') LEU
+      Residue: (' ', 576, ' ') GLN
+      Residue: (' ', 577, ' ') LYS
+      Residue: (' ', 578, ' ') PHE
+      Residue: (' ', 579, ' ') ASP
+      Residue: (' ', 580, ' ') HIS
+      Residue: (' ', 581, ' ') PRO
+      Residue: (' ', 582, ' ') LEU
+      Residue: (' ', 583, ' ') ALA
+      Residue: (' ', 584, ' ') ALA
+      Residue: (' ', 585, ' ') LEU
+      Residue: (' ', 586, ' ') TYR
+      Residue: (' ', 587, ' ') SER
+      Residue: (' ', 588, ' ') THR
+      Residue: (' ', 589, ' ') SER
+      Residue: (' ', 590, ' ') THR
+      Residue: (' ', 591, ' ') MET
+      Residue: (' ', 592, ' ') GLU
+      Residue: (' ', 593, ' ') GLN
+      Residue: (' ', 594, ' ') HIS
+      Residue: (' ', 595, ' ') HIS
+      Residue: (' ', 596, ' ') PHE
+      Residue: (' ', 597, ' ') SER
+      Residue: (' ', 598, ' ') GLN
+      Residue: (' ', 599, ' ') THR
+      Residue: (' ', 600, ' ') VAL
+      Residue: (' ', 601, ' ') SER
+      Residue: (' ', 602, ' ') ILE
+      Residue: (' ', 603, ' ') LEU
+      Residue: (' ', 604, ' ') GLN
+      Residue: (' ', 605, ' ') LEU
+      Residue: (' ', 606, ' ') GLU
+      Residue: (' ', 607, ' ') GLY
+      Residue: (' ', 608, ' ') HIS
+      Residue: (' ', 609, ' ') ASN
+      Residue: (' ', 610, ' ') ILE
+      Residue: (' ', 611, ' ') PHE
+      Residue: (' ', 612, ' ') SER
+      Residue: (' ', 613, ' ') THR
+      Residue: (' ', 614, ' ') LEU
+      Residue: (' ', 615, ' ') SER
+      Residue: (' ', 616, ' ') SER
+      Residue: (' ', 617, ' ') SER
+      Residue: (' ', 618, ' ') GLU
+      Residue: (' ', 619, ' ') TYR
+      Residue: (' ', 620, ' ') GLU
+      Residue: (' ', 621, ' ') GLN
+      Residue: (' ', 622, ' ') VAL
+      Residue: (' ', 623, ' ') LEU
+      Residue: (' ', 624, ' ') GLU
+      Residue: (' ', 625, ' ') ILE
+      Residue: (' ', 626, ' ') ILE
+      Residue: (' ', 627, ' ') ARG
+      Residue: (' ', 628, ' ') LYS
+      Residue: (' ', 629, ' ') ALA
+      Residue: (' ', 630, ' ') ILE
+      Residue: (' ', 631, ' ') ILE
+      Residue: (' ', 632, ' ') ALA
+      Residue: (' ', 633, ' ') THR
+      Residue: (' ', 634, ' ') ASP
+      Residue: (' ', 635, ' ') LEU
+      Residue: (' ', 636, ' ') ALA
+      Residue: (' ', 637, ' ') LEU
+      Residue: (' ', 638, ' ') TYR
+      Residue: (' ', 639, ' ') PHE
+      Residue: (' ', 640, ' ') GLY
+      Residue: (' ', 641, ' ') ASN
+      Residue: (' ', 642, ' ') ARG
+      Residue: (' ', 643, ' ') LYS
+      Residue: (' ', 644, ' ') GLN
+      Residue: (' ', 645, ' ') LEU
+      Residue: (' ', 646, ' ') GLU
+      Residue: (' ', 647, ' ') GLU
+      Residue: (' ', 648, ' ') MET
+      Residue: (' ', 649, ' ') TYR
+      Residue: (' ', 650, ' ') GLN
+      Residue: (' ', 651, ' ') THR
+      Residue: (' ', 652, ' ') GLY
+      Residue: (' ', 653, ' ') SER
+      Residue: (' ', 654, ' ') LEU
+      Residue: (' ', 655, ' ') ASN
+      Residue: (' ', 656, ' ') LEU
+      Residue: (' ', 657, ' ') ASN
+      Residue: (' ', 658, ' ') ASN
+      Residue: (' ', 659, ' ') GLN
+      Residue: (' ', 660, ' ') SER
+      Residue: (' ', 661, ' ') HIS
+      Residue: (' ', 662, ' ') ARG
+      Residue: (' ', 663, ' ') ASP
+      Residue: (' ', 664, ' ') ARG
+      Residue: (' ', 665, ' ') VAL
+      Residue: (' ', 666, ' ') ILE
+      Residue: (' ', 667, ' ') GLY
+      Residue: (' ', 668, ' ') LEU
+      Residue: (' ', 669, ' ') MET
+      Residue: (' ', 670, ' ') MET
+      Residue: (' ', 671, ' ') THR
+      Residue: (' ', 672, ' ') ALA
+      Residue: (' ', 673, ' ') CYS
+      Residue: (' ', 674, ' ') ASP
+      Residue: (' ', 675, ' ') LEU
+      Residue: (' ', 676, ' ') CYS
+      Residue: (' ', 677, ' ') SER
+      Residue: (' ', 678, ' ') VAL
+      Residue: (' ', 679, ' ') THR
+      Residue: (' ', 680, ' ') LYS
+      Residue: (' ', 681, ' ') LEU
+      Residue: (' ', 682, ' ') TRP
+      Residue: (' ', 683, ' ') PRO
+      Residue: (' ', 684, ' ') VAL
+      Residue: (' ', 685, ' ') THR
+      Residue: (' ', 686, ' ') LYS
+      Residue: (' ', 687, ' ') LEU
+      Residue: (' ', 688, ' ') THR
+      Residue: (' ', 689, ' ') ALA
+      Residue: (' ', 690, ' ') ASN
+      Residue: (' ', 691, ' ') ASP
+      Residue: (' ', 692, ' ') ILE
+      Residue: (' ', 693, ' ') TYR
+      Residue: (' ', 694, ' ') ALA
+      Residue: (' ', 695, ' ') GLU
+      Residue: (' ', 696, ' ') PHE
+      Residue: (' ', 697, ' ') TRP
+      Residue: (' ', 698, ' ') ALA
+      Residue: (' ', 699, ' ') GLU
+      Residue: (' ', 700, ' ') GLY
+      Residue: (' ', 701, ' ') ASP
+      Residue: (' ', 702, ' ') GLU
+      Residue: (' ', 703, ' ') MET
+      Residue: (' ', 704, ' ') LYS
+      Residue: (' ', 705, ' ') LYS
+      Residue: (' ', 706, ' ') LEU
+      Residue: (' ', 707, ' ') GLY
+      Residue: (' ', 708, ' ') ILE
+      Residue: (' ', 709, ' ') GLN
+      Residue: (' ', 710, ' ') PRO
+      Residue: (' ', 711, ' ') ILE
+      Residue: (' ', 712, ' ') PRO
+      Residue: (' ', 713, ' ') MET
+      Residue: (' ', 714, ' ') MET
+      Residue: (' ', 715, ' ') ASP
+      Residue: (' ', 716, ' ') ARG
+      Residue: (' ', 717, ' ') ASP
+      Residue: (' ', 718, ' ') LYS
+      Residue: (' ', 719, ' ') LYS
+      Residue: (' ', 720, ' ') ASP
+      Residue: (' ', 721, ' ') GLU
+      Residue: (' ', 722, ' ') VAL
+      Residue: (' ', 723, ' ') PRO
+      Residue: (' ', 724, ' ') GLN
+      Residue: (' ', 725, ' ') GLY
+      Residue: (' ', 726, ' ') GLN
+      Residue: (' ', 727, ' ') LEU
+      Residue: (' ', 728, ' ') GLY
+      Residue: (' ', 729, ' ') PHE
+      Residue: (' ', 730, ' ') TYR
+      Residue: (' ', 731, ' ') ASN
+      Residue: (' ', 732, ' ') ALA
+      Residue: (' ', 733, ' ') VAL
+      Residue: (' ', 734, ' ') ALA
+      Residue: (' ', 735, ' ') ILE
+      Residue: (' ', 736, ' ') PRO
+      Residue: (' ', 737, ' ') CYS
+      Residue: (' ', 738, ' ') TYR
+      Residue: (' ', 739, ' ') THR
+      Residue: (' ', 740, ' ') THR
+      Residue: (' ', 741, ' ') LEU
+      Residue: (' ', 742, ' ') THR
+      Residue: (' ', 743, ' ') GLN
+      Residue: (' ', 744, ' ') ILE
+      Residue: (' ', 745, ' ') LEU
+      Residue: (' ', 746, ' ') PRO
+      Residue: (' ', 747, ' ') PRO
+      Residue: (' ', 748, ' ') THR
+      Residue: (' ', 749, ' ') GLU
+      Residue: (' ', 750, ' ') PRO
+      Residue: (' ', 751, ' ') LEU
+      Residue: (' ', 752, ' ') LEU
+      Residue: (' ', 753, ' ') LYS
+      Residue: (' ', 754, ' ') ALA
+      Residue: (' ', 755, ' ') CYS
+      Residue: (' ', 756, ' ') ARG
+      Residue: (' ', 757, ' ') ASP
+      Residue: (' ', 758, ' ') ASN
+      Residue: (' ', 759, ' ') LEU
+      Residue: (' ', 760, ' ') SER
+      Residue: (' ', 761, ' ') GLN
+      Residue: (' ', 762, ' ') TRP
+      Residue: (' ', 763, ' ') GLU
+      Residue: (' ', 764, ' ') LYS
+      Residue: (' ', 765, ' ') VAL
+      Residue: (' ', 766, ' ') ILE
+      Residue: (' ', 767, ' ') ARG
+      Residue: (' ', 768, ' ') GLY
+      Residue: (' ', 769, ' ') GLU
+      Residue: (' ', 770, ' ') GLU
+      Residue: (' ', 771, ' ') THR
+      Residue: ('H_ZN', 777, ' ') ZN
+      Residue: ('H_MG', 778, ' ') MG
+      Residue: ('W', 779, ' ') HOH
+      Residue: ('W', 780, ' ') HOH
+      Residue: ('W', 781, ' ') HOH
+      Residue: ('W', 782, ' ') HOH
+      Residue: ('W', 783, ' ') HOH
+      Residue: ('W', 784, ' ') HOH
+      Residue: ('W', 785, ' ') HOH
+      Residue: ('W', 786, ' ') HOH
+      Residue: ('W', 787, ' ') HOH
+      Residue: ('W', 788, ' ') HOH
+      Residue: ('W', 789, ' ') HOH
+      Residue: ('W', 790, ' ') HOH
+      Residue: ('W', 791, ' ') HOH
+      Residue: ('W', 792, ' ') HOH
+      Residue: ('W', 793, ' ') HOH
+      Residue: ('W', 794, ' ') HOH
+      Residue: ('W', 795, ' ') HOH
+      Residue: ('W', 796, ' ') HOH
+      Residue: ('W', 797, ' ') HOH
+      Residue: ('W', 798, ' ') HOH
+      Residue: ('W', 799, ' ') HOH
+      Residue: ('W', 800, ' ') HOH
+      Residue: ('W', 801, ' ') HOH
+      Residue: ('W', 802, ' ') HOH
+      Residue: ('W', 803, ' ') HOH
+      Residue: ('W', 804, ' ') HOH
+      Residue: ('W', 805, ' ') HOH
+      Residue: ('W', 806, ' ') HOH
+      Residue: ('W', 807, ' ') HOH
+      Residue: ('W', 808, ' ') HOH
+      Residue: ('W', 809, ' ') HOH
+      Residue: ('W', 810, ' ') HOH
+      Residue: ('W', 811, ' ') HOH
+      Residue: ('W', 812, ' ') HOH
+      Residue: ('W', 813, ' ') HOH
+      Residue: ('W', 814, ' ') HOH
+      Residue: ('W', 815, ' ') HOH
+      Residue: ('W', 816, ' ') HOH
+      Residue: ('W', 817, ' ') HOH
+      Residue: ('W', 818, ' ') HOH
+      Residue: ('W', 819, ' ') HOH
+      Residue: ('W', 820, ' ') HOH
+      Residue: ('W', 821, ' ') HOH
+      Residue: ('W', 822, ' ') HOH
+      Residue: ('W', 823, ' ') HOH
+      Residue: ('W', 824, ' ') HOH
+      Residue: ('W', 825, ' ') HOH
+      Residue: ('W', 826, ' ') HOH
+      Residue: ('W', 827, ' ') HOH
+      Residue: ('W', 828, ' ') HOH
+      Residue: ('W', 829, ' ') HOH
+      Residue: ('W', 830, ' ') HOH
+      Residue: ('W', 831, ' ') HOH
+      Residue: ('W', 832, ' ') HOH
+      Residue: ('W', 833, ' ') HOH
+      Residue: ('W', 834, ' ') HOH
+      Residue: ('W', 835, ' ') HOH
+      Residue: ('W', 836, ' ') HOH
+      Residue: ('W', 837, ' ') HOH
+      Residue: ('W', 838, ' ') HOH
+      Residue: ('W', 839, ' ') HOH
+      Residue: ('W', 840, ' ') HOH
+      Residue: ('W', 841, ' ') HOH
+      Residue: ('W', 842, ' ') HOH
+      Residue: ('W', 843, ' ') HOH
+      Residue: ('W', 844, ' ') HOH
+      Residue: ('W', 845, ' ') HOH
+      Residue: ('W', 846, ' ') HOH
+      Residue: ('W', 847, ' ') HOH
+      Residue: ('W', 848, ' ') HOH
+      Residue: ('W', 849, ' ') HOH
+      Residue: ('W', 850, ' ') HOH
+      Residue: ('W', 851, ' ') HOH
+      Residue: ('W', 852, ' ') HOH
+      Residue: ('W', 853, ' ') HOH
+      Residue: ('W', 854, ' ') HOH
+      Residue: ('W', 855, ' ') HOH
+      Residue: ('W', 856, ' ') HOH
+      Residue: ('W', 857, ' ') HOH
+      Residue: ('W', 858, ' ') HOH
+      Residue: ('W', 859, ' ') HOH
+      Residue: ('W', 860, ' ') HOH
+      Residue: ('W', 861, ' ') HOH
+      Residue: ('W', 862, ' ') HOH
+      Residue: ('W', 863, ' ') HOH
+      Residue: ('W', 864, ' ') HOH
+      Residue: ('W', 865, ' ') HOH
+      Residue: ('W', 866, ' ') HOH
+      Residue: ('W', 867, ' ') HOH
+      Residue: ('W', 868, ' ') HOH
+      Residue: ('W', 869, ' ') HOH
+      Residue: ('W', 870, ' ') HOH
+      Residue: ('W', 871, ' ') HOH
+      Residue: ('W', 872, ' ') HOH
+      Residue: ('W', 873, ' ') HOH
+      Residue: ('W', 874, ' ') HOH
+      Residue: ('W', 875, ' ') HOH
+      Residue: ('W', 876, ' ') HOH
+      Residue: ('W', 877, ' ') HOH
+      Residue: ('W', 878, ' ') HOH
+      Residue: ('W', 879, ' ') HOH
+      Residue: ('W', 880, ' ') HOH
+      Residue: ('W', 881, ' ') HOH
+      Residue: ('W', 882, ' ') HOH
+      Residue: ('W', 883, ' ') HOH
+      Residue: ('W', 884, ' ') HOH
+      Residue: ('W', 885, ' ') HOH
+      Residue: ('W', 886, ' ') HOH
+      Residue: ('W', 887, ' ') HOH
+      Residue: ('W', 888, ' ') HOH
+      Residue: ('W', 889, ' ') HOH
+      Residue: ('W', 890, ' ') HOH
+      Residue: ('W', 891, ' ') HOH
+      Residue: ('W', 892, ' ') HOH
+      Residue: ('W', 893, ' ') HOH
+      Residue: ('W', 894, ' ') HOH
+      Residue: ('W', 895, ' ') HOH
+      Residue: ('W', 896, ' ') HOH
+      Residue: ('W', 897, ' ') HOH
+      Residue: ('W', 898, ' ') HOH
+      Residue: ('W', 899, ' ') HOH
+      Residue: ('W', 900, ' ') HOH
+      Residue: ('W', 901, ' ') HOH
+      Residue: ('W', 902, ' ') HOH
+      Residue: ('W', 903, ' ') HOH
+      Residue: ('W', 904, ' ') HOH
+      Residue: ('W', 905, ' ') HOH
+      Residue: ('W', 906, ' ') HOH
+      Residue: ('W', 907, ' ') HOH
+      Residue: ('W', 908, ' ') HOH
+      Residue: ('W', 909, ' ') HOH
+      Residue: ('W', 910, ' ') HOH
+      Residue: ('W', 911, ' ') HOH
+      Residue: ('W', 912, ' ') HOH
+      Residue: ('W', 913, ' ') HOH
+      Residue: ('W', 914, ' ') HOH
+      Residue: ('W', 915, ' ') HOH
+      Residue: ('W', 916, ' ') HOH
+      Residue: ('W', 917, ' ') HOH
+      Residue: ('W', 918, ' ') HOH
+      Residue: ('W', 919, ' ') HOH
+      Residue: ('W', 920, ' ') HOH
+      Residue: ('W', 921, ' ') HOH
+      Residue: ('W', 922, ' ') HOH
+      Residue: ('W', 923, ' ') HOH
+      Residue: ('W', 924, ' ') HOH
+      Residue: ('W', 925, ' ') HOH
+      Residue: ('W', 926, ' ') HOH
+      Residue: ('W', 927, ' ') HOH
+      Residue: ('W', 928, ' ') HOH
+      Residue: ('W', 929, ' ') HOH
+      Residue: ('W', 930, ' ') HOH
+      Residue: ('W', 931, ' ') HOH
+      Residue: ('W', 932, ' ') HOH
+      Residue: ('W', 933, ' ') HOH
+      Residue: ('W', 934, ' ') HOH
+      Residue: ('W', 935, ' ') HOH
+      Residue: ('W', 936, ' ') HOH
+      Residue: ('W', 937, ' ') HOH
+      Residue: ('W', 938, ' ') HOH
+      Residue: ('W', 939, ' ') HOH
+      Residue: ('W', 940, ' ') HOH
+      Residue: ('W', 941, ' ') HOH
+      Residue: ('W', 942, ' ') HOH
+      Residue: ('W', 943, ' ') HOH
+      Residue: ('W', 944, ' ') HOH
+      Residue: ('W', 945, ' ') HOH
+      Residue: ('W', 946, ' ') HOH
+      Residue: ('W', 947, ' ') HOH
+      Residue: ('W', 948, ' ') HOH
+      Residue: ('W', 949, ' ') HOH
+      Residue: ('W', 950, ' ') HOH
+      Residue: ('W', 951, ' ') HOH
+      Residue: ('W', 952, ' ') HOH
+      Residue: ('W', 953, ' ') HOH
+      Residue: ('W', 954, ' ') HOH
+      Residue: ('W', 955, ' ') HOH
+      Residue: ('W', 956, ' ') HOH
+      Residue: ('W', 957, ' ') HOH
+      Residue: ('W', 958, ' ') HOH
+      Residue: ('W', 959, ' ') HOH
+      Residue: ('W', 960, ' ') HOH
+      Residue: ('W', 961, ' ') HOH
+      Residue: ('W', 962, ' ') HOH
+      Residue: ('W', 963, ' ') HOH
+      Residue: ('W', 964, ' ') HOH
+      Residue: ('W', 965, ' ') HOH
+      Residue: ('W', 966, ' ') HOH
+      Residue: ('W', 967, ' ') HOH
+      Residue: ('W', 968, ' ') HOH
+      Residue: ('W', 969, ' ') HOH
+      Residue: ('W', 970, ' ') HOH
+      Residue: ('W', 971, ' ') HOH
+      Residue: ('W', 972, ' ') HOH
+      Residue: ('W', 973, ' ') HOH
+      Residue: ('W', 974, ' ') HOH
+      Residue: ('W', 975, ' ') HOH
+      Residue: ('W', 976, ' ') HOH
+      Residue: ('W', 977, ' ') HOH
+      Residue: ('W', 978, ' ') HOH
+      Residue: ('W', 979, ' ') HOH
+      Residue: ('W', 980, ' ') HOH
+      Residue: ('W', 981, ' ') HOH
+      Residue: ('W', 982, ' ') HOH
+      Residue: ('W', 983, ' ') HOH
+      Residue: ('W', 984, ' ') HOH
+      Residue: ('W', 985, ' ') HOH
+      Residue: ('W', 986, ' ') HOH
+      Residue: ('W', 987, ' ') HOH
+      Residue: ('W', 988, ' ') HOH
+      Residue: ('W', 989, ' ') HOH
+      Residue: ('W', 990, ' ') HOH
+      Residue: ('W', 991, ' ') HOH
+      Residue: ('W', 992, ' ') HOH
+      Residue: ('W', 993, ' ') HOH
+      Residue: ('W', 994, ' ') HOH
+      Residue: ('W', 995, ' ') HOH
+      Residue: ('W', 996, ' ') HOH
+      Residue: ('W', 997, ' ') HOH
+      Residue: ('W', 998, ' ') HOH
+      Residue: ('W', 999, ' ') HOH
+      Residue: ('W', 1000, ' ') HOH
+      Residue: ('W', 1001, ' ') HOH
+      Residue: ('W', 1002, ' ') HOH
+      Residue: ('W', 1003, ' ') HOH
+      Residue: ('W', 1004, ' ') HOH
+      Residue: ('W', 1005, ' ') HOH
+      Residue: ('W', 1006, ' ') HOH
+      Residue: ('W', 1007, ' ') HOH
+      Residue: ('W', 1008, ' ') HOH
+      Residue: ('W', 1009, ' ') HOH
+      Residue: ('W', 1010, ' ') HOH
+      Residue: ('W', 1011, ' ') HOH
+      Residue: ('W', 1012, ' ') HOH
+      Residue: ('W', 1013, ' ') HOH
+      Residue: ('W', 1014, ' ') HOH
+      Residue: ('W', 1015, ' ') HOH
+      Residue: ('W', 1016, ' ') HOH
+      Residue: ('W', 1017, ' ') HOH
+      Residue: ('W', 1018, ' ') HOH
+      Residue: ('W', 1019, ' ') HOH
+      Residue: ('W', 1020, ' ') HOH
+      Residue: ('W', 1021, ' ') HOH
+      Residue: ('W', 1022, ' ') HOH
+      Residue: ('W', 1023, ' ') HOH
+      Residue: ('W', 1024, ' ') HOH
+      Residue: ('W', 1025, ' ') HOH
+      Residue: ('W', 1026, ' ') HOH
+      Residue: ('W', 1027, ' ') HOH
+      Residue: ('W', 1028, ' ') HOH
+      Residue: ('W', 1029, ' ') HOH
+      Residue: ('W', 1030, ' ') HOH
+--------------------------------Model ID: 0
+  Chain ID: A
+    Residue: (' ', 447, ' ') HIS
+    Residue: (' ', 448, ' ') MET
+    Residue: (' ', 449, ' ') SER
+    Residue: (' ', 450, ' ') ILE
+    Residue: (' ', 451, ' ') CYS
+    Residue: (' ', 452, ' ') THR
+    Residue: (' ', 453, ' ') SER
+    Residue: (' ', 454, ' ') GLU
+    Residue: (' ', 455, ' ') GLU
+    Residue: (' ', 456, ' ') TRP
+    Residue: (' ', 457, ' ') GLN
+    Residue: (' ', 458, ' ') GLY
+    Residue: (' ', 459, ' ') LEU
+    Residue: (' ', 460, ' ') MET
+    Residue: (' ', 461, ' ') GLN
+    Residue: (' ', 462, ' ') PHE
+    Residue: (' ', 463, ' ') THR
+    Residue: (' ', 464, ' ') LEU
+    Residue: (' ', 465, ' ') PRO
+    Residue: (' ', 466, ' ') VAL
+    Residue: (' ', 467, ' ') ARG
+    Residue: (' ', 468, ' ') LEU
+    Residue: (' ', 469, ' ') CYS
+    Residue: (' ', 470, ' ') LYS
+    Residue: (' ', 471, ' ') GLU
+    Residue: (' ', 472, ' ') ILE
+    Residue: (' ', 473, ' ') GLU
+    Residue: (' ', 474, ' ') LEU
+    Residue: (' ', 475, ' ') PHE
+    Residue: (' ', 476, ' ') HIS
+    Residue: (' ', 477, ' ') PHE
+    Residue: (' ', 478, ' ') ASP
+    Residue: (' ', 479, ' ') ILE
+    Residue: (' ', 480, ' ') GLY
+    Residue: (' ', 481, ' ') PRO
+    Residue: (' ', 482, ' ') PHE
+    Residue: (' ', 483, ' ') GLU
+    Residue: (' ', 484, ' ') ASN
+    Residue: (' ', 485, ' ') MET
+    Residue: (' ', 486, ' ') TRP
+    Residue: (' ', 487, ' ') PRO
+    Residue: (' ', 488, ' ') GLY
+    Residue: (' ', 489, ' ') ILE
+    Residue: (' ', 490, ' ') PHE
+    Residue: (' ', 491, ' ') VAL
+    Residue: (' ', 492, ' ') TYR
+    Residue: (' ', 493, ' ') MET
+    Residue: (' ', 494, ' ') VAL
+    Residue: (' ', 495, ' ') HIS
+    Residue: (' ', 496, ' ') ARG
+    Residue: (' ', 497, ' ') SER
+    Residue: (' ', 498, ' ') CYS
+    Residue: (' ', 499, ' ') GLY
+    Residue: (' ', 500, ' ') THR
+    Residue: (' ', 501, ' ') SER
+    Residue: (' ', 502, ' ') CYS
+    Residue: (' ', 503, ' ') PHE
+    Residue: (' ', 504, ' ') GLU
+    Residue: (' ', 505, ' ') LEU
+    Residue: (' ', 506, ' ') GLU
+    Residue: (' ', 507, ' ') LYS
+    Residue: (' ', 508, ' ') LEU
+    Residue: (' ', 509, ' ') CYS
+    Residue: (' ', 510, ' ') ARG
+    Residue: (' ', 511, ' ') PHE
+    Residue: (' ', 512, ' ') ILE
+    Residue: (' ', 513, ' ') MET
+    Residue: (' ', 514, ' ') SER
+    Residue: (' ', 515, ' ') VAL
+    Residue: (' ', 516, ' ') LYS
+    Residue: (' ', 517, ' ') LYS
+    Residue: (' ', 518, ' ') ASN
+    Residue: (' ', 519, ' ') TYR
+    Residue: (' ', 520, ' ') ARG
+    Residue: (' ', 521, ' ') ARG
+    Residue: (' ', 522, ' ') VAL
+    Residue: (' ', 523, ' ') PRO
+    Residue: (' ', 524, ' ') TYR
+    Residue: (' ', 525, ' ') HIS
+    Residue: (' ', 526, ' ') ASN
+    Residue: (' ', 527, ' ') TRP
+    Residue: (' ', 528, ' ') LYS
+    Residue: (' ', 529, ' ') HIS
+    Residue: (' ', 530, ' ') ALA
+    Residue: (' ', 531, ' ') VAL
+    Residue: (' ', 532, ' ') THR
+    Residue: (' ', 533, ' ') VAL
+    Residue: (' ', 534, ' ') ALA
+    Residue: (' ', 535, ' ') HIS
+    Residue: (' ', 536, ' ') CYS
+    Residue: (' ', 537, ' ') MET
+    Residue: (' ', 538, ' ') TYR
+    Residue: (' ', 539, ' ') ALA
+    Residue: (' ', 540, ' ') ILE
+    Residue: (' ', 541, ' ') LEU
+    Residue: (' ', 542, ' ') GLN
+    Residue: (' ', 543, ' ') ASN
+    Residue: (' ', 544, ' ') ASN
+    Residue: (' ', 545, ' ') HIS
+    Residue: (' ', 546, ' ') THR
+    Residue: (' ', 547, ' ') LEU
+    Residue: (' ', 548, ' ') PHE
+    Residue: (' ', 549, ' ') THR
+    Residue: (' ', 550, ' ') ASP
+    Residue: (' ', 551, ' ') LEU
+    Residue: (' ', 552, ' ') GLU
+    Residue: (' ', 553, ' ') ARG
+    Residue: (' ', 554, ' ') LYS
+    Residue: (' ', 555, ' ') GLY
+    Residue: (' ', 556, ' ') LEU
+    Residue: (' ', 557, ' ') LEU
+    Residue: (' ', 558, ' ') ILE
+    Residue: (' ', 559, ' ') ALA
+    Residue: (' ', 560, ' ') CYS
+    Residue: (' ', 561, ' ') LEU
+    Residue: (' ', 562, ' ') CYS
+    Residue: (' ', 563, ' ') HIS
+    Residue: (' ', 564, ' ') ASN
+    Residue: (' ', 565, ' ') LEU
+    Residue: (' ', 566, ' ') ASP
+    Residue: (' ', 567, ' ') HIS
+    Residue: (' ', 568, ' ') ARG
+    Residue: (' ', 569, ' ') GLY
+    Residue: (' ', 570, ' ') PHE
+    Residue: (' ', 571, ' ') SER
+    Residue: (' ', 572, ' ') ASN
+    Residue: (' ', 573, ' ') SER
+    Residue: (' ', 574, ' ') TYR
+    Residue: (' ', 575, ' ') LEU
+    Residue: (' ', 576, ' ') GLN
+    Residue: (' ', 577, ' ') LYS
+    Residue: (' ', 578, ' ') PHE
+    Residue: (' ', 579, ' ') ASP
+    Residue: (' ', 580, ' ') HIS
+    Residue: (' ', 581, ' ') PRO
+    Residue: (' ', 582, ' ') LEU
+    Residue: (' ', 583, ' ') ALA
+    Residue: (' ', 584, ' ') ALA
+    Residue: (' ', 585, ' ') LEU
+    Residue: (' ', 586, ' ') TYR
+    Residue: (' ', 587, ' ') SER
+    Residue: (' ', 588, ' ') THR
+    Residue: (' ', 589, ' ') SER
+    Residue: (' ', 590, ' ') THR
+    Residue: (' ', 591, ' ') MET
+    Residue: (' ', 592, ' ') GLU
+    Residue: (' ', 593, ' ') GLN
+    Residue: (' ', 594, ' ') HIS
+    Residue: (' ', 595, ' ') HIS
+    Residue: (' ', 596, ' ') PHE
+    Residue: (' ', 597, ' ') SER
+    Residue: (' ', 598, ' ') GLN
+    Residue: (' ', 599, ' ') THR
+    Residue: (' ', 600, ' ') VAL
+    Residue: (' ', 601, ' ') SER
+    Residue: (' ', 602, ' ') ILE
+    Residue: (' ', 603, ' ') LEU
+    Residue: (' ', 604, ' ') GLN
+    Residue: (' ', 605, ' ') LEU
+    Residue: (' ', 606, ' ') GLU
+    Residue: (' ', 607, ' ') GLY
+    Residue: (' ', 608, ' ') HIS
+    Residue: (' ', 609, ' ') ASN
+    Residue: (' ', 610, ' ') ILE
+    Residue: (' ', 611, ' ') PHE
+    Residue: (' ', 612, ' ') SER
+    Residue: (' ', 613, ' ') THR
+    Residue: (' ', 614, ' ') LEU
+    Residue: (' ', 615, ' ') SER
+    Residue: (' ', 616, ' ') SER
+    Residue: (' ', 617, ' ') SER
+    Residue: (' ', 618, ' ') GLU
+    Residue: (' ', 619, ' ') TYR
+    Residue: (' ', 620, ' ') GLU
+    Residue: (' ', 621, ' ') GLN
+    Residue: (' ', 622, ' ') VAL
+    Residue: (' ', 623, ' ') LEU
+    Residue: (' ', 624, ' ') GLU
+    Residue: (' ', 625, ' ') ILE
+    Residue: (' ', 626, ' ') ILE
+    Residue: (' ', 627, ' ') ARG
+    Residue: (' ', 628, ' ') LYS
+    Residue: (' ', 629, ' ') ALA
+    Residue: (' ', 630, ' ') ILE
+    Residue: (' ', 631, ' ') ILE
+    Residue: (' ', 632, ' ') ALA
+    Residue: (' ', 633, ' ') THR
+    Residue: (' ', 634, ' ') ASP
+    Residue: (' ', 635, ' ') LEU
+    Residue: (' ', 636, ' ') ALA
+    Residue: (' ', 637, ' ') LEU
+    Residue: (' ', 638, ' ') TYR
+    Residue: (' ', 639, ' ') PHE
+    Residue: (' ', 640, ' ') GLY
+    Residue: (' ', 641, ' ') ASN
+    Residue: (' ', 642, ' ') ARG
+    Residue: (' ', 643, ' ') LYS
+    Residue: (' ', 644, ' ') GLN
+    Residue: (' ', 645, ' ') LEU
+    Residue: (' ', 646, ' ') GLU
+    Residue: (' ', 647, ' ') GLU
+    Residue: (' ', 648, ' ') MET
+    Residue: (' ', 649, ' ') TYR
+    Residue: (' ', 650, ' ') GLN
+    Residue: (' ', 651, ' ') THR
+    Residue: (' ', 652, ' ') GLY
+    Residue: (' ', 653, ' ') SER
+    Residue: (' ', 654, ' ') LEU
+    Residue: (' ', 655, ' ') ASN
+    Residue: (' ', 656, ' ') LEU
+    Residue: (' ', 657, ' ') ASN
+    Residue: (' ', 658, ' ') ASN
+    Residue: (' ', 659, ' ') GLN
+    Residue: (' ', 660, ' ') SER
+    Residue: (' ', 661, ' ') HIS
+    Residue: (' ', 662, ' ') ARG
+    Residue: (' ', 663, ' ') ASP
+    Residue: (' ', 664, ' ') ARG
+    Residue: (' ', 665, ' ') VAL
+    Residue: (' ', 666, ' ') ILE
+    Residue: (' ', 667, ' ') GLY
+    Residue: (' ', 668, ' ') LEU
+    Residue: (' ', 669, ' ') MET
+    Residue: (' ', 670, ' ') MET
+    Residue: (' ', 671, ' ') THR
+    Residue: (' ', 672, ' ') ALA
+    Residue: (' ', 673, ' ') CYS
+    Residue: (' ', 674, ' ') ASP
+    Residue: (' ', 675, ' ') LEU
+    Residue: (' ', 676, ' ') CYS
+    Residue: (' ', 677, ' ') SER
+    Residue: (' ', 678, ' ') VAL
+    Residue: (' ', 679, ' ') THR
+    Residue: (' ', 680, ' ') LYS
+    Residue: (' ', 681, ' ') LEU
+    Residue: (' ', 682, ' ') TRP
+    Residue: (' ', 683, ' ') PRO
+    Residue: (' ', 684, ' ') VAL
+    Residue: (' ', 685, ' ') THR
+    Residue: (' ', 686, ' ') LYS
+    Residue: (' ', 687, ' ') LEU
+    Residue: (' ', 688, ' ') THR
+    Residue: (' ', 689, ' ') ALA
+    Residue: (' ', 690, ' ') ASN
+    Residue: (' ', 691, ' ') ASP
+    Residue: (' ', 692, ' ') ILE
+    Residue: (' ', 693, ' ') TYR
+    Residue: (' ', 694, ' ') ALA
+    Residue: (' ', 695, ' ') GLU
+    Residue: (' ', 696, ' ') PHE
+    Residue: (' ', 697, ' ') TRP
+    Residue: (' ', 698, ' ') ALA
+    Residue: (' ', 699, ' ') GLU
+    Residue: (' ', 700, ' ') GLY
+    Residue: (' ', 701, ' ') ASP
+    Residue: (' ', 702, ' ') GLU
+    Residue: (' ', 703, ' ') MET
+    Residue: (' ', 704, ' ') LYS
+    Residue: (' ', 705, ' ') LYS
+    Residue: (' ', 706, ' ') LEU
+    Residue: (' ', 707, ' ') GLY
+    Residue: (' ', 708, ' ') ILE
+    Residue: (' ', 709, ' ') GLN
+    Residue: (' ', 710, ' ') PRO
+    Residue: (' ', 711, ' ') ILE
+    Residue: (' ', 712, ' ') PRO
+    Residue: (' ', 713, ' ') MET
+    Residue: (' ', 714, ' ') MET
+    Residue: (' ', 715, ' ') ASP
+    Residue: (' ', 716, ' ') ARG
+    Residue: (' ', 717, ' ') ASP
+    Residue: (' ', 718, ' ') LYS
+    Residue: (' ', 719, ' ') LYS
+    Residue: (' ', 720, ' ') ASP
+    Residue: (' ', 721, ' ') GLU
+    Residue: (' ', 722, ' ') VAL
+    Residue: (' ', 723, ' ') PRO
+    Residue: (' ', 724, ' ') GLN
+    Residue: (' ', 725, ' ') GLY
+    Residue: (' ', 726, ' ') GLN
+    Residue: (' ', 727, ' ') LEU
+    Residue: (' ', 728, ' ') GLY
+    Residue: (' ', 729, ' ') PHE
+    Residue: (' ', 730, ' ') TYR
+    Residue: (' ', 731, ' ') ASN
+    Residue: (' ', 732, ' ') ALA
+    Residue: (' ', 733, ' ') VAL
+    Residue: (' ', 734, ' ') ALA
+    Residue: (' ', 735, ' ') ILE
+    Residue: (' ', 736, ' ') PRO
+    Residue: (' ', 737, ' ') CYS
+    Residue: (' ', 738, ' ') TYR
+    Residue: (' ', 739, ' ') THR
+    Residue: (' ', 740, ' ') THR
+    Residue: (' ', 741, ' ') LEU
+    Residue: (' ', 742, ' ') THR
+    Residue: (' ', 743, ' ') GLN
+    Residue: (' ', 744, ' ') ILE
+    Residue: (' ', 745, ' ') LEU
+    Residue: (' ', 746, ' ') PRO
+    Residue: (' ', 747, ' ') PRO
+    Residue: (' ', 748, ' ') THR
+    Residue: (' ', 749, ' ') GLU
+    Residue: (' ', 750, ' ') PRO
+    Residue: (' ', 751, ' ') LEU
+    Residue: (' ', 752, ' ') LEU
+    Residue: (' ', 753, ' ') LYS
+    Residue: (' ', 754, ' ') ALA
+    Residue: (' ', 755, ' ') CYS
+    Residue: (' ', 756, ' ') ARG
+    Residue: (' ', 757, ' ') ASP
+    Residue: (' ', 758, ' ') ASN
+    Residue: (' ', 759, ' ') LEU
+    Residue: (' ', 760, ' ') SER
+    Residue: (' ', 761, ' ') GLN
+    Residue: (' ', 762, ' ') TRP
+    Residue: (' ', 763, ' ') GLU
+    Residue: (' ', 764, ' ') LYS
+    Residue: (' ', 765, ' ') VAL
+    Residue: (' ', 766, ' ') ILE
+    Residue: (' ', 767, ' ') ARG
+    Residue: (' ', 768, ' ') GLY
+    Residue: (' ', 769, ' ') GLU
+    Residue: (' ', 770, ' ') GLU
+    Residue: (' ', 771, ' ') THR
+    Residue: ('H_ZN', 777, ' ') ZN
+    Residue: ('H_MG', 778, ' ') MG
+    Residue: ('W', 779, ' ') HOH
+    Residue: ('W', 780, ' ') HOH
+    Residue: ('W', 781, ' ') HOH
+    Residue: ('W', 782, ' ') HOH
+    Residue: ('W', 783, ' ') HOH
+    Residue: ('W', 784, ' ') HOH
+    Residue: ('W', 785, ' ') HOH
+    Residue: ('W', 786, ' ') HOH
+    Residue: ('W', 787, ' ') HOH
+    Residue: ('W', 788, ' ') HOH
+    Residue: ('W', 789, ' ') HOH
+    Residue: ('W', 790, ' ') HOH
+    Residue: ('W', 791, ' ') HOH
+    Residue: ('W', 792, ' ') HOH
+    Residue: ('W', 793, ' ') HOH
+    Residue: ('W', 794, ' ') HOH
+    Residue: ('W', 795, ' ') HOH
+    Residue: ('W', 796, ' ') HOH
+    Residue: ('W', 797, ' ') HOH
+    Residue: ('W', 798, ' ') HOH
+    Residue: ('W', 799, ' ') HOH
+    Residue: ('W', 800, ' ') HOH
+    Residue: ('W', 801, ' ') HOH
+    Residue: ('W', 802, ' ') HOH
+    Residue: ('W', 803, ' ') HOH
+    Residue: ('W', 804, ' ') HOH
+    Residue: ('W', 805, ' ') HOH
+    Residue: ('W', 806, ' ') HOH
+    Residue: ('W', 807, ' ') HOH
+    Residue: ('W', 808, ' ') HOH
+    Residue: ('W', 809, ' ') HOH
+    Residue: ('W', 810, ' ') HOH
+    Residue: ('W', 811, ' ') HOH
+    Residue: ('W', 812, ' ') HOH
+    Residue: ('W', 813, ' ') HOH
+    Residue: ('W', 814, ' ') HOH
+    Residue: ('W', 815, ' ') HOH
+    Residue: ('W', 816, ' ') HOH
+    Residue: ('W', 817, ' ') HOH
+    Residue: ('W', 818, ' ') HOH
+    Residue: ('W', 819, ' ') HOH
+    Residue: ('W', 820, ' ') HOH
+    Residue: ('W', 821, ' ') HOH
+    Residue: ('W', 822, ' ') HOH
+    Residue: ('W', 823, ' ') HOH
+    Residue: ('W', 824, ' ') HOH
+    Residue: ('W', 825, ' ') HOH
+    Residue: ('W', 826, ' ') HOH
+    Residue: ('W', 827, ' ') HOH
+    Residue: ('W', 828, ' ') HOH
+    Residue: ('W', 829, ' ') HOH
+    Residue: ('W', 830, ' ') HOH
+    Residue: ('W', 831, ' ') HOH
+    Residue: ('W', 832, ' ') HOH
+    Residue: ('W', 833, ' ') HOH
+    Residue: ('W', 834, ' ') HOH
+    Residue: ('W', 835, ' ') HOH
+    Residue: ('W', 836, ' ') HOH
+    Residue: ('W', 837, ' ') HOH
+    Residue: ('W', 838, ' ') HOH
+    Residue: ('W', 839, ' ') HOH
+    Residue: ('W', 840, ' ') HOH
+    Residue: ('W', 841, ' ') HOH
+    Residue: ('W', 842, ' ') HOH
+    Residue: ('W', 843, ' ') HOH
+    Residue: ('W', 844, ' ') HOH
+    Residue: ('W', 845, ' ') HOH
+    Residue: ('W', 846, ' ') HOH
+    Residue: ('W', 847, ' ') HOH
+    Residue: ('W', 848, ' ') HOH
+    Residue: ('W', 849, ' ') HOH
+    Residue: ('W', 850, ' ') HOH
+    Residue: ('W', 851, ' ') HOH
+    Residue: ('W', 852, ' ') HOH
+    Residue: ('W', 853, ' ') HOH
+    Residue: ('W', 854, ' ') HOH
+    Residue: ('W', 855, ' ') HOH
+    Residue: ('W', 856, ' ') HOH
+    Residue: ('W', 857, ' ') HOH
+    Residue: ('W', 858, ' ') HOH
+    Residue: ('W', 859, ' ') HOH
+    Residue: ('W', 860, ' ') HOH
+    Residue: ('W', 861, ' ') HOH
+    Residue: ('W', 862, ' ') HOH
+    Residue: ('W', 863, ' ') HOH
+    Residue: ('W', 864, ' ') HOH
+    Residue: ('W', 865, ' ') HOH
+    Residue: ('W', 866, ' ') HOH
+    Residue: ('W', 867, ' ') HOH
+    Residue: ('W', 868, ' ') HOH
+    Residue: ('W', 869, ' ') HOH
+    Residue: ('W', 870, ' ') HOH
+    Residue: ('W', 871, ' ') HOH
+    Residue: ('W', 872, ' ') HOH
+    Residue: ('W', 873, ' ') HOH
+    Residue: ('W', 874, ' ') HOH
+    Residue: ('W', 875, ' ') HOH
+    Residue: ('W', 876, ' ') HOH
+    Residue: ('W', 877, ' ') HOH
+    Residue: ('W', 878, ' ') HOH
+    Residue: ('W', 879, ' ') HOH
+    Residue: ('W', 880, ' ') HOH
+    Residue: ('W', 881, ' ') HOH
+    Residue: ('W', 882, ' ') HOH
+    Residue: ('W', 883, ' ') HOH
+    Residue: ('W', 884, ' ') HOH
+    Residue: ('W', 885, ' ') HOH
+    Residue: ('W', 886, ' ') HOH
+    Residue: ('W', 887, ' ') HOH
+    Residue: ('W', 888, ' ') HOH
+    Residue: ('W', 889, ' ') HOH
+    Residue: ('W', 890, ' ') HOH
+    Residue: ('W', 891, ' ') HOH
+    Residue: ('W', 892, ' ') HOH
+    Residue: ('W', 893, ' ') HOH
+    Residue: ('W', 894, ' ') HOH
+    Residue: ('W', 895, ' ') HOH
+    Residue: ('W', 896, ' ') HOH
+    Residue: ('W', 897, ' ') HOH
+    Residue: ('W', 898, ' ') HOH
+    Residue: ('W', 899, ' ') HOH
+    Residue: ('W', 900, ' ') HOH
+    Residue: ('W', 901, ' ') HOH
+    Residue: ('W', 902, ' ') HOH
+    Residue: ('W', 903, ' ') HOH
+    Residue: ('W', 904, ' ') HOH
+    Residue: ('W', 905, ' ') HOH
+    Residue: ('W', 906, ' ') HOH
+    Residue: ('W', 907, ' ') HOH
+    Residue: ('W', 908, ' ') HOH
+    Residue: ('W', 909, ' ') HOH
+    Residue: ('W', 910, ' ') HOH
+    Residue: ('W', 911, ' ') HOH
+    Residue: ('W', 912, ' ') HOH
+    Residue: ('W', 913, ' ') HOH
+    Residue: ('W', 914, ' ') HOH
+    Residue: ('W', 915, ' ') HOH
+    Residue: ('W', 916, ' ') HOH
+    Residue: ('W', 917, ' ') HOH
+    Residue: ('W', 918, ' ') HOH
+    Residue: ('W', 919, ' ') HOH
+    Residue: ('W', 920, ' ') HOH
+    Residue: ('W', 921, ' ') HOH
+    Residue: ('W', 922, ' ') HOH
+    Residue: ('W', 923, ' ') HOH
+    Residue: ('W', 924, ' ') HOH
+    Residue: ('W', 925, ' ') HOH
+    Residue: ('W', 926, ' ') HOH
+    Residue: ('W', 927, ' ') HOH
+    Residue: ('W', 928, ' ') HOH
+    Residue: ('W', 929, ' ') HOH
+    Residue: ('W', 930, ' ') HOH
+    Residue: ('W', 931, ' ') HOH
+    Residue: ('W', 932, ' ') HOH
+    Residue: ('W', 933, ' ') HOH
+    Residue: ('W', 934, ' ') HOH
+    Residue: ('W', 935, ' ') HOH
+    Residue: ('W', 936, ' ') HOH
+    Residue: ('W', 937, ' ') HOH
+    Residue: ('W', 938, ' ') HOH
+    Residue: ('W', 939, ' ') HOH
+    Residue: ('W', 940, ' ') HOH
+    Residue: ('W', 941, ' ') HOH
+    Residue: ('W', 942, ' ') HOH
+    Residue: ('W', 943, ' ') HOH
+    Residue: ('W', 944, ' ') HOH
+    Residue: ('W', 945, ' ') HOH
+    Residue: ('W', 946, ' ') HOH
+    Residue: ('W', 947, ' ') HOH
+    Residue: ('W', 948, ' ') HOH
+    Residue: ('W', 949, ' ') HOH
+    Residue: ('W', 950, ' ') HOH
+    Residue: ('W', 951, ' ') HOH
+    Residue: ('W', 952, ' ') HOH
+    Residue: ('W', 953, ' ') HOH
+    Residue: ('W', 954, ' ') HOH
+    Residue: ('W', 955, ' ') HOH
+    Residue: ('W', 956, ' ') HOH
+    Residue: ('W', 957, ' ') HOH
+    Residue: ('W', 958, ' ') HOH
+    Residue: ('W', 959, ' ') HOH
+    Residue: ('W', 960, ' ') HOH
+    Residue: ('W', 961, ' ') HOH
+    Residue: ('W', 962, ' ') HOH
+    Residue: ('W', 963, ' ') HOH
+    Residue: ('W', 964, ' ') HOH
+    Residue: ('W', 965, ' ') HOH
+    Residue: ('W', 966, ' ') HOH
+    Residue: ('W', 967, ' ') HOH
+    Residue: ('W', 968, ' ') HOH
+    Residue: ('W', 969, ' ') HOH
+    Residue: ('W', 970, ' ') HOH
+    Residue: ('W', 971, ' ') HOH
+    Residue: ('W', 972, ' ') HOH
+    Residue: ('W', 973, ' ') HOH
+    Residue: ('W', 974, ' ') HOH
+    Residue: ('W', 975, ' ') HOH
+    Residue: ('W', 976, ' ') HOH
+    Residue: ('W', 977, ' ') HOH
+    Residue: ('W', 978, ' ') HOH
+    Residue: ('W', 979, ' ') HOH
+    Residue: ('W', 980, ' ') HOH
+    Residue: ('W', 981, ' ') HOH
+    Residue: ('W', 982, ' ') HOH
+    Residue: ('W', 983, ' ') HOH
+    Residue: ('W', 984, ' ') HOH
+    Residue: ('W', 985, ' ') HOH
+    Residue: ('W', 986, ' ') HOH
+    Residue: ('W', 987, ' ') HOH
+    Residue: ('W', 988, ' ') HOH
+    Residue: ('W', 989, ' ') HOH
+    Residue: ('W', 990, ' ') HOH
+    Residue: ('W', 991, ' ') HOH
+    Residue: ('W', 992, ' ') HOH
+    Residue: ('W', 993, ' ') HOH
+    Residue: ('W', 994, ' ') HOH
+    Residue: ('W', 995, ' ') HOH
+    Residue: ('W', 996, ' ') HOH
+    Residue: ('W', 997, ' ') HOH
+    Residue: ('W', 998, ' ') HOH
+    Residue: ('W', 999, ' ') HOH
+    Residue: ('W', 1000, ' ') HOH
+    Residue: ('W', 1001, ' ') HOH
+    Residue: ('W', 1002, ' ') HOH
+    Residue: ('W', 1003, ' ') HOH
+    Residue: ('W', 1004, ' ') HOH
+    Residue: ('W', 1005, ' ') HOH
+    Residue: ('W', 1006, ' ') HOH
+    Residue: ('W', 1007, ' ') HOH
+    Residue: ('W', 1008, ' ') HOH
+    Residue: ('W', 1009, ' ') HOH
+    Residue: ('W', 1010, ' ') HOH
+    Residue: ('W', 1011, ' ') HOH
+    Residue: ('W', 1012, ' ') HOH
+    Residue: ('W', 1013, ' ') HOH
+    Residue: ('W', 1014, ' ') HOH
+    Residue: ('W', 1015, ' ') HOH
+    Residue: ('W', 1016, ' ') HOH
+    Residue: ('W', 1017, ' ') HOH
+    Residue: ('W', 1018, ' ') HOH
+    Residue: ('W', 1019, ' ') HOH
+    Residue: ('W', 1020, ' ') HOH
+    Residue: ('W', 1021, ' ') HOH
+    Residue: ('W', 1022, ' ') HOH
+    Residue: ('W', 1023, ' ') HOH
+    Residue: ('W', 1024, ' ') HOH
+    Residue: ('W', 1025, ' ') HOH
+    Residue: ('W', 1026, ' ') HOH
+    Residue: ('W', 1027, ' ') HOH
+    Residue: ('W', 1028, ' ') HOH
+    Residue: ('W', 1029, ' ') HOH
+    Residue: ('W', 1030, ' ') HOH
