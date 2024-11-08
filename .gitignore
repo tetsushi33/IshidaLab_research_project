@@ -11,3 +11,5 @@ prediction/train_scripts/trained_model_checkpoints
 prediction/train_scripts/wandb
 prediction/trained_model_checkpoints
 prediction/wandb
+
+pdbfile/
