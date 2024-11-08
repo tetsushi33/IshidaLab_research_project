@@ -1,0 +1,13 @@
+blast_db/
+
+dataset_preprocess/Blast_database
+dataset_preprocess/csv_files
+dataset_preprocess/data
+dataset_preprocess/fasta
+dataset_preprocess/mmcif
+dataset_preprocess/PDBbind_original_data
+
+prediction/train_scripts/trained_model_checkpoints
+prediction/train_scripts/wandb
+prediction/trained_model_checkpoints
+prediction/wandb
