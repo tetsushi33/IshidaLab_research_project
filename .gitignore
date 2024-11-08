@@ -1,3 +1,4 @@
+! 元データオンラインからダウンロード
 blast_db/
 
 dataset_preprocess/Blast_database
@@ -13,4 +14,4 @@ prediction/trained_model_checkpoints
 prediction/wandb
 
 pdbfile/
-hdf5_graph_files/
+hdf5_graph_files
