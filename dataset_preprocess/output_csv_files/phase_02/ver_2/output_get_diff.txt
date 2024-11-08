@@ -1,0 +1,25 @@
+Elements in 'pdb_id' that are in ../../../csv_files_from_sakai/csv_file/similar_apo_proteins.csv 
+  but not in ../../output_csv_files/phaze_02/ver_2/similar_apo_proteins.csv:
+
+5cil
+    5cil,6ID4,C
+2jb5
+    2jb5,6ID4,C
+4wy7
+    4wy7,6ID4,C
+6b5r
+    6b5r,6ID4,C
+2jb6
+    2jb6,6ID4,C
+
+Elements in 'pdb_id' that are in ../../output_csv_files/phaze_02/ver_2/similar_apo_proteins.csv 
+  but not in ../../../csv_files_from_sakai/csv_file/similar_apo_proteins.csv:
+  
+3hzy 
+    3hzy,3HZY,A
+6n3l
+    6n3l,8T7T,A (あって良い)
+6n3o
+    6n3o,8T7T,A (あって良い)
+
+上のいずれもpocket_data.csvにはあるので、検索の過程での違いとなる
