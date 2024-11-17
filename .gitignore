@@ -1,17 +1,26 @@
-! 元データオンラインからダウンロード
+! ------------------------------------------------------ !
+! - Online : 元データオンラインからダウンロードしたファイル  !
+! - Over   : サイズが大きすぎるファイル                     !
+! ------------------------------------------------------ !
+
+! - Online - !
 blast_db/
+pdbfile/
 
 dataset_preprocess/Blast_database
-dataset_preprocess/csv_files
 dataset_preprocess/data
 dataset_preprocess/fasta
 dataset_preprocess/mmcif
+dataset_preprocess/output_csv_files
+dataset_preprocess/output_csv_files_ideal
 dataset_preprocess/PDBbind_original_data
 
+
+! - Over - !
+csv_files_from_sakai
 prediction/train_scripts/trained_model_checkpoints
 prediction/train_scripts/wandb
 prediction/trained_model_checkpoints
 prediction/wandb
 
-pdbfile/
 hdf5_graph_files
