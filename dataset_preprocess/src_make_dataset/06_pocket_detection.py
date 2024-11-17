@@ -4,7 +4,8 @@ import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 import argparse
-from modules import module_determining_pocket, module_deciding_pockets
+#from IshidaLab_research_project.dataset_preprocess.src_make_dataset.modules import module_determining_pocket
+from modules import module_deciding_pockets
 from pymol import cmd, stored
 
 ## input
@@ -17,7 +18,8 @@ apo_proteins_id_csv = pd.read_csv('../output_csv_files/phase_05/ver_1/apo_protei
 apo_holo_pairs_with_group_id_csv = pd.read_csv("../output_csv_files/phase_05/ver_1/apo_holo_pairs_with_group_id.csv")
 
 ## output
-output_csv_dir = "../output_csv_files/phase_06/ver_2"
+output_csv_dir = "../output_csv_files/phase_06/ver_3"
+log_dir = "../rmsd_culculating_log"
 
 colors = ["red", "green", "blue", "yellow", "orange", "purple"]
 
@@ -26,12 +28,14 @@ def main(start_id, end_id):
     output_csv_path = os.path.join(output_csv_dir, f'pocket_analysis_results_{start_id}_to_{end_id}.csv')
 
     for apo_group_id in tqdm(range(start_id, end_id+1)):
+        # ログファイルの設定
+        log_file_path = os.path.join(log_dir, f"group_id_{apo_group_id}")
+        module_deciding_pockets.logging_setting(log_file_path)
         results = []
         cmd.reinitialize()
 
         # グループ内の代表アポタンパク質の決定
         apo_A_name, apo_A_chain = module_deciding_pockets.deciding_apo_representitive(apo_group_id, apo_proteins_id_csv)
-        
         # アポAと対応するホロの重ね合わせ
         module_deciding_pockets.prepare_apo_for_pymol(apo_A_name, apo_A_chain)
         
@@ -62,7 +66,6 @@ def main(start_id, end_id):
                     #'apo_loop_per': apo_pocket_loop_percentage.get(holo_name, None),
                     'holo_loop_per': holo_info['loop_per']
                 }
-                print(result_a)
                 results.append(result_a)
         
         #print("merged pockets : ", merged_pockets)
@@ -104,7 +107,6 @@ def main(start_id, end_id):
                             'apo_loop_per': apo_B_pocket_loop_percentage.get(holo_name, None),
                             'holo_loop_per': holo_info['loop_per']
                                     }
-                        print(result_b)
                         results.append(result_b)
         
         # 結果の保存

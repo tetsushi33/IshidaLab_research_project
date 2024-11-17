@@ -8,6 +8,9 @@ from Bio.PDB.MMCIFParser import MMCIFParser
 from Bio.Align import PairwiseAligner
 from tqdm import tqdm
 import sys
+import logging
+from datetime import datetime
+
 
 # PDB
 pdbbind_dir_refined = "../PDBbind_original_data/refined-set/"
@@ -23,6 +26,19 @@ AMINO_ACID_CODE = {
     "UNK": "X"
 }
 
+def logging_setting(log_file_path):
+    os.makedirs(log_file_path, exist_ok=True)  # フォルダが存在しない場合は作成
+    # タイムスタンプ付きのログファイル名を作成
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = os.path.join(log_file_path, f"log_{timestamp}.log")
+    # ログ設定
+    logging.basicConfig(
+        level=logging.INFO,  # ログの出力レベル: DEBUG, INFO, WARNING, ERROR, CRITICAL
+        format='%(asctime)s - %(levelname)s - %(message)s',  # ログのフォーマット
+        handlers=[
+            logging.FileHandler(log_file),  # ファイルにログを記録
+        ]
+    )
 
 """
 ===================================================
@@ -85,19 +101,23 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
     apo_pocket_loop_percentage = {}
     apo_pocket_missing_percentage = {}
 
-    print("対応するホロタンパク質の数 : ", len(corresponding_holos_row))
+    logging.info(f"代表アポタンパク質 : {apo_A_name}_{apo_A_chain}")
+    logging.info(f"対応するホロタンパク質の数 : {len(corresponding_holos_row)}")
+    print(f"代表アポタンパク質 : {apo_A_name}_{apo_A_chain}")
+    print(f"対応するホロタンパク質の数 : {len(corresponding_holos_row)}")
     
-    for _, corresponding_holo_row in corresponding_holos_row.iterrows():
-        print("=======")
+    for _, corresponding_holo_row in tqdm(corresponding_holos_row.iterrows(), total=len(corresponding_holos_row), desc="Processing holos"):
+        logging.info("=======")
         holo_name = corresponding_holo_row['holo_name']
         holo_chain = corresponding_holo_row['holo_chain']
+        logging.info(f"{holo_name}_{holo_chain}")
         # ポケットファイルの存在確認
         pocket_path_refined = os.path.join(pdbbind_dir_refined, holo_name, f"{holo_name}_pocket.pdb") # 第一候補
         pocket_path_other = os.path.join(pdbbind_dir_other, holo_name, f"{holo_name}_pocket.pdb") # 第二候補（予備）
         pdb_pocket_data_path = pocket_path_refined
         if not os.path.exists(pocket_path_refined):
             if not os.path.exists(pocket_path_other):
-                print("pdb bindファイルが見つかりません")
+                logging.warning("pdb bindファイルが見つかりません")
                 continue
             else:
                 pdb_pocket_data_path = pocket_path_other
@@ -105,22 +125,23 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         ## -----アポAと対応ホロのアライメント
         # ホロのポケット部分をロード
         cmd.load(pdb_pocket_data_path, f"{holo_name}_pocket")
-
+        
         holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket and chain {holo_chain}")
+        cmd.select(f"{holo_name}_pocket_on_chain_{holo_chain}", f"chain {holo_chain} and {holo_name}_pocket")
 
         # ポケットの配列を取得してアライメント
         pocket_seq_converted = get_sequence_from_pdb(pdb_pocket_data_path)
         pocket_seq_converted_chain_selected = get_sequence_from_pdb_chain_selected(pdb_pocket_data_path, holo_chain)
 
         alignment = align_sequences(apo_seq, pocket_seq_converted_chain_selected) # ローカルアライメントに変更
-        print(alignment)
+        #print(alignment)
 
         # ポケット対応残基の決定
         selection_query, selected_numbers = select_aligned_residues_and_store_numbers_for_local(apo_A_chain, alignment, apo_residue_numbers)
-        print(selection_query)
+        #print(selection_query)
 
         if selection_query == "":
-            print("アポ上のポケット対応箇所を決定できません")
+            logging.warning("アポ上のポケット対応箇所を決定できません")
             continue
         else:
             # 欠損座標割合の計算
@@ -144,13 +165,13 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
 
         ## -----RMSDの計算
         try:
-            print("holo_pocket_atom_count : ", holo_pocket_atom_count)
+            logging.info(f"holo_pocket_atom_count : {holo_pocket_atom_count}")
             rmsd_pocket                 = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_query_of_apo_pocket,     cycles = 0), holo_pocket_atom_count)
             rmsd_pocket_sub             = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_query_of_apo_pocket_sub, cycles = 0), holo_pocket_atom_count)
             rmsd_all_structure_in_chain = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", "apo_protein",                     cycles = 0), holo_pocket_atom_count)
-            print("rmsd_pocket: ", rmsd_pocket)
-            print("rmsd_pocket_sub: ", rmsd_pocket_sub)
-            print("rmsd_all_structure_in_chain: ", rmsd_all_structure_in_chain)
+            logging.info(f"rmsd_pocket: {rmsd_pocket}")
+            logging.info(f"rmsd_pocket_sub: {rmsd_pocket_sub}")
+            logging.info(f"rmsd_all_structure_in_chain: {rmsd_all_structure_in_chain}")
         except pymol.CmdException as e:
             print(f"Alignment failed for {holo_name}, {cmd.count_atoms(holo_name)} and apo_protein, {cmd.count_atoms('apo_protein')} : {e}")
 
@@ -181,6 +202,8 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         merged_pocket_id = original_to_merged_pocket_id[selection]
         merged_pocket_ids[holo_name] = merged_pocket_id
         pockets_centroid_results[holo_name] = merged_pockets_centroids[merged_pocket_id]
+    
+    logging.info(f"--------------------代表アポの重ね合わせ完了--------------------")
 
     return merged_pocket_ids, pockets_centroid_results, rmsd_results, merged_pockets, apo_pocket_missing_percentage
 
@@ -224,6 +247,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         merged pockets :  [(1, {('163', 'TYR'), ('51', 'LEU'), ('267', 'THR'),...}), (), ...] 
         merged pocket ids :  {'4f5y': 1, '4loi': 1, '4loh': 1}
     '''
+    logging.info("=======================")
     # アポAの配列情報
     apo_A_fasta_path = f"../data/fasta/apo/{apo_A_name}_{apo_A_chain}.fasta"
     record_A = SeqIO.read(apo_A_fasta_path, "fasta")
@@ -457,7 +481,7 @@ def align_sequences(seq1, seq2):
     '''
     aligner = PairwiseAligner()
     aligner.mode = 'local'
-    # スコアリングの調整（例）
+    # スコアリングの調整
     aligner.match_score = 2         # 一致部分に対するスコア
     aligner.mismatch_score = -1     # 不一致部分に対するペナルティ
     aligner.open_gap_score = -2     # ギャップ開始のペナルティ
@@ -572,7 +596,7 @@ def calculate_rmsd_if_aligned_enough(align_result, holo_pocket_atom_count, thres
         Raw alignment score
         Number of residues aligned
     """
-    print("align result : ", align_result)
+    #print("align result : ", align_result)
     aligned_atom_count = align_result[4]  # 重ね合わせで成功した分子数
 
     # ホロ構造全体の原子数のうち一定の割合の原子数がちゃんとRMSD計算に使われていたらOK
