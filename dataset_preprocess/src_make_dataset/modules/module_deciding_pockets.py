@@ -26,6 +26,8 @@ AMINO_ACID_CODE = {
     "UNK": "X"
 }
 
+colors = ["red", "green", "blue", "yellow", "orange", "purple"]
+
 def logging_setting(log_file_path):
     os.makedirs(log_file_path, exist_ok=True)  # フォルダが存在しない場合は作成
     # タイムスタンプ付きのログファイル名を作成
@@ -34,7 +36,7 @@ def logging_setting(log_file_path):
     # ログ設定
     logging.basicConfig(
         level=logging.INFO,  # ログの出力レベル: DEBUG, INFO, WARNING, ERROR, CRITICAL
-        format='%(asctime)s - %(levelname)s - %(message)s',  # ログのフォーマット
+        format='%(levelname)s - %(message)s',  # ログのフォーマット
         handlers=[
             logging.FileHandler(log_file),  # ファイルにログを記録
         ]
@@ -92,21 +94,24 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
     record = SeqIO.read(apo_A_fasta_path, "fasta")
     apo_seq = str(record.seq)
 
-    # アポAに対応するホロ群
+    # アポAに対応するホロ群(グループ番号の一致が基準)
     corresponding_holos_row = apo_holo_pairs_with_group_id_csv[apo_holo_pairs_with_group_id_csv['apo_group_id'] == apo_group_id]
+    # 'holo_name' と 'holo_chain' の組み合わせで重複を削除
+    unique_corresponding_holos_row = corresponding_holos_row.drop_duplicates(subset=['holo_name', 'holo_chain'])
 
     pocket_residues = {}
+    pocket_residues_2 = {}
     holo_to_pocket_selection = {}
     rmsd_results = {}
     apo_pocket_loop_percentage = {}
     apo_pocket_missing_percentage = {}
 
     logging.info(f"代表アポタンパク質 : {apo_A_name}_{apo_A_chain}")
-    logging.info(f"対応するホロタンパク質の数 : {len(corresponding_holos_row)}")
+    logging.info(f"対応するホロタンパク質の数 : {len(unique_corresponding_holos_row)}")
     print(f"代表アポタンパク質 : {apo_A_name}_{apo_A_chain}")
-    print(f"対応するホロタンパク質の数 : {len(corresponding_holos_row)}")
+    print(f"対応するホロタンパク質の数 : {len(unique_corresponding_holos_row)}")
     
-    for _, corresponding_holo_row in tqdm(corresponding_holos_row.iterrows(), total=len(corresponding_holos_row), desc="Processing holos"):
+    for _, corresponding_holo_row in tqdm(unique_corresponding_holos_row.iterrows(), total=len(unique_corresponding_holos_row), desc="Processing holos"):
         logging.info("=======")
         holo_name = corresponding_holo_row['holo_name']
         holo_chain = corresponding_holo_row['holo_chain']
@@ -129,7 +134,7 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket and chain {holo_chain}")
         cmd.select(f"{holo_name}_pocket_on_chain_{holo_chain}", f"chain {holo_chain} and {holo_name}_pocket")
 
-        # ポケットの配列を取得してアライメント
+        # ポケットの配列を取得してアライメント（対象のチェーン部分のみに限定）
         pocket_seq_converted = get_sequence_from_pdb(pdb_pocket_data_path)
         pocket_seq_converted_chain_selected = get_sequence_from_pdb_chain_selected(pdb_pocket_data_path, holo_chain)
 
@@ -157,10 +162,17 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
             #apo_pocket_loop_percentage[pocket_name] = calculate_apo_pocket_loop_percentage(f"apo_pocket_{pocket_name}")
 
             # アポ上のポケットの名前とそれに対応する残基番号を格納
-            pocket_residues[selection_query_of_apo_pocket] = set(selected_numbers) 
+            #pocket_residues[selection_query_of_apo_pocket] = set(selected_numbers) 
             '''
             例： 'apo_pocket_from_4f5y_A': {('239', 'VAL'), ('171', 'ILE'), ...}
             '''
+            stored.residues = []
+            cmd.iterate(selection_query_of_apo_pocket, "stored.residues.append((resi, resn))")
+            # `selected_numbers` を基にしてフィルタリング
+            filtered_residues = [(resi, resn) for resi, resn in stored.residues if int(resi) in selected_numbers]
+            # `pocket_residues` に格納
+            pocket_residues[selection_query_of_apo_pocket] = set(filtered_residues)
+
             holo_to_pocket_selection[corresponding_holo_row['holo_name']] = selection_query_of_apo_pocket
 
         ## -----RMSDの計算
@@ -173,27 +185,36 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
             logging.info(f"rmsd_pocket_sub: {rmsd_pocket_sub}")
             logging.info(f"rmsd_all_structure_in_chain: {rmsd_all_structure_in_chain}")
         except pymol.CmdException as e:
-            print(f"Alignment failed for {holo_name}, {cmd.count_atoms(holo_name)} and apo_protein, {cmd.count_atoms('apo_protein')} : {e}")
+            #print(f"Alignment failed for {holo_name}, {cmd.count_atoms(holo_name)} and apo_protein, {cmd.count_atoms('apo_protein')} : {e}")
+            print("aaaaa!!!")
 
         rmsd_min = min(rmsd_pocket, rmsd_pocket_sub)
         rmsd_min = min(rmsd_min, rmsd_all_structure_in_chain)
         rmsd_results[holo_name] = rmsd_min # ポケット一つに対し、由来のホロの名前とその部分のRMSDを格納
         
         # 選択した残基の保存(Pymol上)
-        stored.residues = []
-        cmd.iterate(selection_query_of_apo_pocket, "stored.residues.append((resi, resn))")
-        pocket_residues[selection_query_of_apo_pocket] = set(stored.residues) # 2回目の更新 <- 必要？？
+        #stored.residues = []
+        #cmd.iterate(selection_query_of_apo_pocket, "stored.residues.append((resi, resn))")
+        #pocket_residues_2[selection_query_of_apo_pocket] = set(stored.residues) # 2回目の更新 <- 必要？？
 
+    
     ## ポケットのマージ
-    merged_pockets, original_to_merged_pocket_id = merge_pocket_candidates(pocket_residues)
+    logging.info("=======")
+    merged_pockets, original_to_merged_pocket_id = merge_pocket_candidates_2(pocket_residues) 
+    logging.info(f"マージ後のポケット : {merged_pockets}")
+    logging.info(f"各ポケットのマージ後のポケットid : {original_to_merged_pocket_id}")
     
     # マージされたポケットごとに重心を計算
     merged_pockets_centroids = {}
+    color_index = 0
     for pid, residues in merged_pockets:
-        selection_query_merged_pocket = f"pocket_{pid}"
-        selection_residues = " or ".join([f"resi {resi}" for resi, resn in residues]) # resi: 残基番号、resn: 残基の種類
+        selection_query_merged_pocket = f"merged_pocket_{pid}"
+        # ↓ "apo_protein and" を入れないと、何もない空間上を選択していた
+        selection_residues = " or ".join([f"apo_protein and chain {apo_A_chain} and resi {resi}" for resi, resn in residues]) # resi: 残基番号、resn: 残基の種類
         cmd.select(selection_query_merged_pocket, selection_residues)
+        cmd.color(colors[color_index], selection_query_merged_pocket)
         merged_pockets_centroids[pid] = calculate_centroid(selection_query_merged_pocket)
+        color_index = (color_index + 1) % len(colors)
 
     # マージ後のポケットIDとその重心をまとめる
     merged_pocket_ids = {}
@@ -202,20 +223,14 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         merged_pocket_id = original_to_merged_pocket_id[selection]
         merged_pocket_ids[holo_name] = merged_pocket_id
         pockets_centroid_results[holo_name] = merged_pockets_centroids[merged_pocket_id]
+    logging.info(f"merged_pocket_ids : {merged_pocket_ids}")
     
     logging.info(f"--------------------代表アポの重ね合わせ完了--------------------")
+    logging.info("↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓代表以外のアポの処理↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓")
 
     return merged_pocket_ids, pockets_centroid_results, rmsd_results, merged_pockets, apo_pocket_missing_percentage
 
 def save_pymol_process(group_id, merged_pockets, colors):
-    color_index = 0
-    for pid, residues in merged_pockets:
-        selection_residues = " or ".join([f"resi {resi}" for resi, resn in residues])
-        selection_name = f"merged_pocket_{pid}"
-        cmd.select(selection_name, selection_residues)
-        cmd.color(colors[color_index], selection_name)
-        color_index = (color_index + 1) % len(colors)
-    
     cmd.save(f"../pse_file/pocket_visualization_protein_id_{group_id}.pse")
 
 
@@ -247,7 +262,8 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         merged pockets :  [(1, {('163', 'TYR'), ('51', 'LEU'), ('267', 'THR'),...}), (), ...] 
         merged pocket ids :  {'4f5y': 1, '4loi': 1, '4loh': 1}
     '''
-    logging.info("=======================")
+    logging.info("=================================================")
+    logging.info(f"apo B : {apo_B_name}_{apo_B_chain}")
     # アポAの配列情報
     apo_A_fasta_path = f"../data/fasta/apo/{apo_A_name}_{apo_A_chain}.fasta"
     record_A = SeqIO.read(apo_A_fasta_path, "fasta")
@@ -275,11 +291,17 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
     apo_B_pocket_missing_percentage = {}
     apo_B_pocket_loop_percentage = {}
     for holo_name, pocket_id in merged_pocket_ids.items():
+        logging.info("=======")
+        logging.info(f"merged pocket id : {pocket_id} (from {holo_name})")
         ## アポB上でのポケット残基を決定
         if pocket_id in processed_pockets:
             apo_B_selection_query = processed_pockets[pocket_id]
         else:
-            apo_A_pocket_residues = merged_pockets[pocket_id]
+            # pocket_idに対応するポケットの残基を取得
+            apo_A_pocket_residues = None
+            for pid, residues in merged_pockets:
+                if pid == pocket_id:
+                    apo_A_pocket_residues = residues
 
             if apo_A_pocket_residues is None:
                 print(f"ポケットID{pocket_id}の残基がありません")
@@ -313,35 +335,39 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         if holo_pocket_path:
             holo_pocket_seq = get_sequence_from_pdb(holo_pocket_path)
             alignment = align_sequences(apo_B_seq, holo_pocket_seq)
-            holo_pocket_atom_count = cmd.count_atoms(holo_name)
+            holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket")
 
             # アポBとホロポケットを重ね合わせ位置をポケット位置を設定
-            apo_B_residue_numbers = get_residue_numbers_from_mmcif(f"../data/mmcif/apo/{apo_B_name}.cif", apo_B_chain)
+            apo_B_residue_numbers = get_residue_numbers_from_mmcif(f"../mmcif/apo/{apo_B_name}.cif", apo_B_chain)
             selection_query_holo_pocket, _ = select_aligned_residues_and_store_numbers(apo_B_chain, alignment, apo_B_residue_numbers)
             cmd.select(f"apo_B_pocket_from_{holo_name}", selection_query_holo_pocket)
-            apo_B_pocket_loop_percentage[holo_name] = calculate_apo_pocket_loop_percentage(f"apo_b_pocket_{holo_name}")
+            apo_B_pocket_loop_percentage[holo_name] = calculate_apo_pocket_loop_percentage(f"apo_B_pocket_from_{holo_name}")
 
             if selection_query_holo_pocket:
                 ## RMSDの計算
                 try:
-                    rmsd_pocket_holo_align = calculate_rmsd_if_aligned_enough(cmd.align(holo_name, f"apo_B_pocket_from_{holo_name}", cycles=0), holo_pocket_atom_count)
-                    rmsd_pocket_holo = calculate_rmsd_if_aligned_enough(cmd.align(holo_name, f"apo_B_pocket_from_{holo_name}_like", cycles=0), holo_pocket_atom_count)
+                    rmsd_pocket_holo_align = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", f"apo_B_pocket_from_{holo_name}", cycles=0), holo_pocket_atom_count)
+                    rmsd_pocket_holo = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", f"apo_B_pocket_from_{holo_name}_like", cycles=0), holo_pocket_atom_count)
                 except pymol.CmdException as e:
                     print(f"Error aligning {holo_name} with apo_B_pocket_holo_align: {e}")
                 rmsd_result_with_holo = min(rmsd_pocket_holo, rmsd_pocket_holo_align)
                 # 欠損割合も計算
                 missing_percentage = calculate_missing_coordinates_percentage(apo_B_cif_path, apo_B_chain, extract_residue_ids_from_query(selection_query_holo_pocket))
                 
+        logging.info(f"rmsd_pocket_holo_align : {rmsd_pocket_holo_align}")
+        logging.info(f"rmsd_pocket_holo : {rmsd_pocket_holo}")
 
         try:
-                rmsd_pocket_pid = calculate_rmsd_if_aligned_enough(cmd.align(holo_name, apo_B_selection_query, cycles=0), holo_pocket_atom_count)
+                rmsd_pocket_pid = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", apo_B_selection_query, cycles=0), holo_pocket_atom_count)
         except pymol.CmdException as e:
             print(f"Error aligning {holo_name} with {apo_B_selection_query}: {e}")
+        logging.info(f"rmsd_pocket_pid : {rmsd_pocket_pid}")
         rmsd_result_with_holo = min(rmsd_result_with_holo, rmsd_pocket_pid)
         try:
-                rmsd_all = calculate_rmsd_if_aligned_enough(cmd.align(holo_name, "apo_B_protein", cycles=0), holo_pocket_atom_count)
+                rmsd_all = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein", cycles=0), holo_pocket_atom_count)
         except pymol.CmdException as e:
             print(f"Error aligning {holo_name} with apo_B_protein: {e}")
+        logging.info(f"rmsd_all : {rmsd_all}")
         rmsd_result_with_holo = min(rmsd_result_with_holo, rmsd_all)
 
         pocket_rmsd_B[holo_name] = rmsd_result_with_holo
@@ -352,7 +378,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
     pse_filename = f"../pse_file/{apo_B_name}_{apo_B_chain}_pocket.pse"
     cmd.save(pse_filename)
     cmd.delete("apo_B_protein")
-    return rmsd_result_with_holo, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage
+    return pocket_rmsd_B, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage
 
 def create_mapping_from_mmcif_to_fasta(mmcif_path, chain_id):
     """
@@ -713,7 +739,7 @@ def merge_pocket_candidates(pocket_residues):
     '''
     返り値
     - (マージ後のポケットID(1から), その残基)
-    - {(アポ上のポケットの名前, ポケットID（マージ先の）), (), (), ...}
+    - {(アポ上のポケットの名前, ポケットID（マージ先）), (), (), ...}
     '''
     # マージされたポケットIDを追跡するための辞書
     merged_pocket_tracking = {key: None for key in pocket_residues.keys()}
@@ -754,5 +780,63 @@ def merge_pocket_candidates(pocket_residues):
         for key in merged_pocket_tracking:
             if merged_pocket_tracking[key] == None:
                 merged_pocket_tracking[key] = pid
+
+    return merged_pockets, merged_pocket_tracking
+    
+def merge_pocket_candidates_2(pocket_residues):
+    """
+    ポケットの残基セットをマージする関数
+    Args:
+        pocket_residues (dict): {ポケット名: 残基セット} の辞書
+    Returns:
+        merged_pockets (list): [(ポケットID, 残基セット), ...]
+        merged_pocket_tracking (dict): {元のポケット名: マージ後のポケットID}
+    """
+    # 初期化
+    merged_pocket_tracking = {key: None for key in pocket_residues.keys()}
+    merged_pockets = []
+    pocket_keys = list(pocket_residues.keys())
+
+    # マージ処理
+    while True:
+        max_overlapping_pair = None
+        max_overlapping_count = 0
+
+        for i in range(len(pocket_keys)):
+            for j in range(i + 1, len(pocket_keys)):
+                key_i, key_j = pocket_keys[i], pocket_keys[j]
+                overlapping_residues = pocket_residues[key_i] & pocket_residues[key_j]
+                overlap_percent_i = len(overlapping_residues) / len(pocket_residues[key_i])
+                overlap_percent_j = len(overlapping_residues) / len(pocket_residues[key_j])
+
+                # マージ条件に合うペアを見つける
+                if overlap_percent_i >= 0.5 or overlap_percent_j >= 0.5:
+                    if len(overlapping_residues) > max_overlapping_count:
+                        max_overlapping_pair = (key_i, key_j)
+                        max_overlapping_count = len(overlapping_residues)
+
+        # マージ実行または終了
+        if max_overlapping_pair:
+            key_i, key_j = max_overlapping_pair
+
+            # 残基セットをマージ
+            pocket_residues[key_i].update(pocket_residues[key_j])
+            del pocket_residues[key_j]
+            pocket_keys.remove(key_j)
+
+            # マージ追跡情報を更新
+            for key, value in merged_pocket_tracking.items():
+                if value == key_j or key == key_j:
+                    merged_pocket_tracking[key] = key_i
+            merged_pocket_tracking[key_j] = key_i
+        else:
+            break
+
+    # マージ結果を整理
+    for pid, (key, residues) in enumerate(pocket_residues.items(), start=1):
+        merged_pockets.append((pid, residues))
+        for original_key in merged_pocket_tracking:
+            if merged_pocket_tracking[original_key] == key or original_key == key:
+                merged_pocket_tracking[original_key] = pid
 
     return merged_pockets, merged_pocket_tracking

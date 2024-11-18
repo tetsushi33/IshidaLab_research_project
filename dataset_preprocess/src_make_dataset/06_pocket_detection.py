@@ -27,7 +27,8 @@ def main(start_id, end_id):
     # 保存先ファイルの設定
     output_csv_path = os.path.join(output_csv_dir, f'pocket_analysis_results_{start_id}_to_{end_id}.csv')
 
-    for apo_group_id in tqdm(range(start_id, end_id+1)):
+    for apo_group_id in range(start_id, end_id+1):
+        print(f"-----------Processing apo group {apo_group_id}...")
         # ログファイルの設定
         log_file_path = os.path.join(log_dir, f"group_id_{apo_group_id}")
         module_deciding_pockets.logging_setting(log_file_path)
@@ -72,19 +73,25 @@ def main(start_id, end_id):
         #print("merged pocket id : ", merged_pocket_ids)
 
         ## 代表以外のアポタンパク質の処理
+        print("--代表以外のアポンタンパク質（アポBs）の処理")
         apo_A_Bs_mapping = {}
         if len(apo_proteins_id_csv[apo_proteins_id_csv['protein_id'] == apo_group_id]) > 1: 
-            for _, apo_B in apo_proteins_id_csv[apo_proteins_id_csv['protein_id'] == apo_group_id].iterrows():
+            print("アポBsの数 : ", len(apo_proteins_id_csv[apo_proteins_id_csv['protein_id'] == apo_group_id])-1)
+            for _, apo_B in tqdm(
+                apo_proteins_id_csv[apo_proteins_id_csv['protein_id'] == apo_group_id].iterrows(),
+                total=len(apo_proteins_id_csv[apo_proteins_id_csv['protein_id'] == apo_group_id]),
+                desc="Processing apo Bs"
+            ):
                 apo_B_name = apo_B['apo_name']
                 apo_B_chain = apo_B['apo_chain']
-                if apo_B_name == apo_A_name & apo_B_chain == apo_A_chain:
+                if apo_B_name == apo_A_name and apo_B_chain == apo_A_chain:
                     continue
 
                 # apo_Bに対応するホロタンパク質を取得
                 corresponding_holos = apo_holo_pairs_csv[apo_holo_pairs_csv['apo_name'].str.upper() == apo_B_name]['holo_name'].values
 
                 module_deciding_pockets.prepare_apo_B_for_pymol(apo_B_name, apo_B_chain)
-                rmsd_result_with_holo, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage = module_deciding_pockets.process_for_apo_B(apo_A_name, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets)
+                rmsd_result_with_holo, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage = module_deciding_pockets.process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets)
                 for holo_name in corresponding_holos:
                     if holo_name in merged_pocket_ids:
                         # pocket_rmsdがinfの場合はスキップ
