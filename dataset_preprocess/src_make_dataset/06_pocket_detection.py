@@ -42,7 +42,7 @@ def main(start_id, end_id):
         
         merged_pocket_ids, pockets_centroid_results, rmsd_results, merged_pockets, apo_pocket_missing_percentage = module_deciding_pockets.overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs_with_group_id_csv)
         # pymolでの処理内容を保存
-        module_deciding_pockets.save_pymol_process(apo_group_id, merged_pockets, colors)
+        module_deciding_pockets.save_pymol_process(apo_group_id, apo_A_name, apo_A_chain, "A")
 
         for holo_name, pocket_id in merged_pocket_ids.items():
             if holo_name in apo_holo_pairs_csv[apo_holo_pairs_csv['apo_name'].str.upper() == apo_A_name]['holo_name'].values:
@@ -92,6 +92,9 @@ def main(start_id, end_id):
 
                 module_deciding_pockets.prepare_apo_B_for_pymol(apo_B_name, apo_B_chain)
                 rmsd_result_with_holo, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage = module_deciding_pockets.process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets)
+                # pymolでの処理内容を保存
+                module_deciding_pockets.save_pymol_process(apo_group_id, apo_B_name, apo_B_chain, "B")
+                
                 for holo_name in corresponding_holos:
                     if holo_name in merged_pocket_ids:
                         # pocket_rmsdがinfの場合はスキップ

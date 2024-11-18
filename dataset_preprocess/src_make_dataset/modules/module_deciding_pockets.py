@@ -230,8 +230,19 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
 
     return merged_pocket_ids, pockets_centroid_results, rmsd_results, merged_pockets, apo_pocket_missing_percentage
 
-def save_pymol_process(group_id, merged_pockets, colors):
-    cmd.save(f"../pse_file/pocket_visualization_protein_id_{group_id}.pse")
+def save_pymol_process(group_id, apo_name, apo_chain, type):
+    if type == "A":
+        save_dir = f"../pse_file/group_id_{group_id}/"
+        if not os.path.isdir(save_dir):
+            os.makedirs(save_dir)
+        cmd.save(os.path.join(save_dir, f"apo_A_{apo_name}_{apo_chain}.pse"))
+    elif type == "B":
+        save_dir = f"../pse_file/group_id_{group_id}/apo_B/"
+        if not os.path.isdir(save_dir):
+            os.makedirs(save_dir)
+        cmd.save(os.path.join(save_dir, f"{apo_name}_{apo_chain}.pse"))
+        cmd.delete("apo_B_protein")
+    return None
 
 
 """
@@ -313,7 +324,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
             processed_pockets[pocket_id] = apo_B_selection_query
             cmd.select(f"apo_B_pocket_{pocket_id}", apo_B_selection_query)
 
-        ## RMSDの計算（ホロ構造との比較）
+        ##-----RMSDの計算
         if apo_B_selection_query is None:
             print(f"アポB内に、ポケットID{pocket_id}に対応するセレクションが見つかりませんでした")
             continue
@@ -375,9 +386,6 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         pocket_centroids_B[holo_name] = pocket_centroid_b
         apo_B_pocket_missing_percentage[holo_name] = missing_percentage
     
-    pse_filename = f"../pse_file/{apo_B_name}_{apo_B_chain}_pocket.pse"
-    cmd.save(pse_filename)
-    cmd.delete("apo_B_protein")
     return pocket_rmsd_B, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage
 
 def create_mapping_from_mmcif_to_fasta(mmcif_path, chain_id):
