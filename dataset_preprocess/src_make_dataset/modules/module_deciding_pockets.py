@@ -187,8 +187,15 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
             logging.info(f"rmsd_pocket_sub: {rmsd_pocket_sub}")
             logging.info(f"rmsd_all_structure_in_chain: {rmsd_all_structure_in_chain}")
         except pymol.CmdException as e:
-            #print(f"Alignment failed for {holo_name}, {cmd.count_atoms(holo_name)} and apo_protein, {cmd.count_atoms('apo_protein')} : {e}")
-            print("aaaaa!!!")
+            selection_temp = f"{holo_name}_pocket and chain {holo_chain}"
+            print(f"pymol align error", type(e))
+            print(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            print(f"    apo_pocket atom count     : {cmd.count_atoms(selection_name_of_apo_pocket)}")
+            print(f"    apo_pocket_sub atom count : {cmd.count_atoms(selection_name_of_apo_pocket_sub)}")
+            logging.error(f"pymol align error", type(e))
+            logging.error(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            logging.error(f"    apo_pocket atom count     : {cmd.count_atoms(selection_name_of_apo_pocket)}")
+            logging.error(f"    apo_pocket_sub atom count : {cmd.count_atoms(selection_name_of_apo_pocket_sub)}")
 
         rmsd_min = min(rmsd_pocket, rmsd_pocket_sub)
         rmsd_min = min(rmsd_min, rmsd_all_structure_in_chain)
@@ -243,7 +250,6 @@ def save_pymol_process(group_id, apo_name, apo_chain, type):
         if not os.path.isdir(save_dir):
             os.makedirs(save_dir)
         cmd.save(os.path.join(save_dir, f"{apo_name}_{apo_chain}.pse"))
-        cmd.delete("apo_B_protein")
     return None
 
 
@@ -270,7 +276,7 @@ def prepare_apo_B_for_pymol(apo_B_name, apo_B_chain,):
     cmd.save(f"../mmcif/apo_center/{apo_B_name}_{apo_B_chain}_centered.cif", 'apo_B_protein', format="cif")
     return None
 
-def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets):
+def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets, apo_group_id):
     '''
     引数；
         merged pockets :  [(1, {('163', 'TYR'), ('51', 'LEU'), ('267', 'THR'),...}), (), ...] 
@@ -336,7 +342,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         holo_pocket_path = pocket_path_refined if os.path.exists(pocket_path_refined) else pocket_path_other if os.path.exists(pocket_path_other) else None
         if holo_pocket_path is None:
             continue
-        holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket") # 原子数ちゃんとチェーン指定されている？
+        holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket and chain {holo_chain}") # チェーン指定
         #holo_pocket_seq = get_sequence_from_pdb(holo_pocket_path) 
         holo_pocket_seq_chain_selected = get_sequence_from_pdb_chain_selected(holo_pocket_path, holo_chain)
         alignment = align_sequences(apo_B_seq, holo_pocket_seq_chain_selected)
@@ -357,21 +363,63 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         rmsd_all = float("inf")
         rmsd_result = float("inf")
         missing_percentage = 0
+        pocket_centroid_b = [0,0,0]
 
 
+
+        #try:
+        #    if selection_query_merged_pocket:
+        #        rmsd_merged_pocket = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged, cycles=0), holo_pocket_atom_count) # ここのholo_pocket_atom_countは違う！！要修正
+#
+        #    if selection_query_single_holo_pocket:
+        #        rmsd_single_holo_pocket     = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single,     cycles=0), holo_pocket_atom_count)
+        #        rmsd_single_holo_pocket_sub = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single_sub, cycles=0), holo_pocket_atom_count)
+#
+        #        #missing_percentage = calculate_missing_coordinates_percentage(apo_B_cif_path, apo_B_chain, extract_residue_ids_from_query(selection_query_holo_pocket))
+        #    rmsd_all = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein", cycles=0)      , holo_pocket_atom_count) # ここの"apo_B_protein"はチェーンはちゃんと片方で計算されるのか？ apo_Aの方も同じなのでどちらも確認する
+        #except pymol.CmdException as e:
+        #    print("pymol error ", e)
 
         try:
-            if selection_query_merged_pocket:
-                rmsd_merged_pocket = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged, cycles=0), holo_pocket_atom_count) # ここのholo_pocket_atom_countは違う！！要修正
-
-            if selection_query_single_holo_pocket:
-                rmsd_single_holo_pocket     = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single,     cycles=0), holo_pocket_atom_count)
-                rmsd_single_holo_pocket_sub = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single_sub, cycles=0), holo_pocket_atom_count)
-
-                #missing_percentage = calculate_missing_coordinates_percentage(apo_B_cif_path, apo_B_chain, extract_residue_ids_from_query(selection_query_holo_pocket))
-            rmsd_all = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein", cycles=0)      , holo_pocket_atom_count) # ここの"apo_B_protein"はチェーンはちゃんと片方で計算されるのか？ apo_Aの方も同じなのでどちらも確認する
+            rmsd_merged_pocket          = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged,     cycles=0), holo_pocket_atom_count) 
+            rmsd_single_holo_pocket     = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single,     cycles=0), holo_pocket_atom_count)
+            rmsd_single_holo_pocket_sub = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single_sub, cycles=0), holo_pocket_atom_count)
+            rmsd_all                    = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein"                       , cycles=0), holo_pocket_atom_count) 
         except pymol.CmdException as e:
-            print("pymol error ", e)
+            selection_temp = f"{holo_name}_pocket and chain {holo_chain}"
+            selection_temp_2 = "apo_B_protein"
+            print(f"pymol align error", type(e))
+            print(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            print(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+            print(f"    apo_B_pocket single atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_single)}")
+            print(f"    apo_B_pocket single sun atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
+            print(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp_2)}")
+            logging.error(f"pymol align error", type(e))
+            logging.error(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            logging.error(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+            logging.error(f"    apo_B_pocket single atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_single)}")
+            logging.error(f"    apo_B_pocket single sun atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
+            logging.error(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp_2)}")
+ 
+ 
+        #if selection_query_merged_pocket:
+        #    try:
+        #        rmsd_merged_pocket = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged, cycles=0), holo_pocket_atom_count) # ここのholo_pocket_atom_countは違う！！要修正
+        #        pocket_centroid_b = calculate_centroid(selection_query_merged_pocket)
+        #    except pymol.CmdException as e:
+        #        print(f"Alignment error in {holo_name} and {selection_name_apo_B_pocket_merged} , error : {type(e)}")
+        #        print(f"selection_query_merged_pocket : {selection_query_merged_pocket}")
+        #    
+        #if selection_query_single_holo_pocket:
+        #    try:
+        #        rmsd_single_holo_pocket     = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single,     cycles=0), holo_pocket_atom_count)
+        #        rmsd_single_holo_pocket_sub = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single_sub, cycles=0), holo_pocket_atom_count)
+        #    except pymol.CmdException as e:
+        #        print(f"Alignment error in {holo_name} and {selection_name_apo_B_pocket_single} , error : {type(e)}")
+        #        print(f"selection_query_single_holo_pocket : {selection_query_single_holo_pocket}")
+        ##missing_percentage = calculate_missing_coordinates_percentage(apo_B_cif_path, apo_B_chain, extract_residue_ids_from_query(selection_query_holo_pocket))
+        #rmsd_all = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein", cycles=0)      , holo_pocket_atom_count) # ここの"apo_B_protein"はチェーンはちゃんと片方で計算されるのか？ apo_Aの方も同じなのでどちらも確認する
+        
 
         logging.info(f"rmsd_merged_pocket : {rmsd_merged_pocket}")
         logging.info(f"rmsd_single_holo_pocket : {rmsd_single_holo_pocket}")
@@ -383,13 +431,19 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         rmsd_result = min(rmsd_result, rmsd_all)
         pocket_rmsd_B[(holo_name, holo_chain)] = rmsd_result
 
-        # ポケット重心を計算（マージ後のアポAのポケットを使用）
-        pocket_centroid_b = calculate_centroid(selection_name_apo_B_pocket_merged)
+        pocket_centroid_b = calculate_centroid(selection_query_merged_pocket)
         pocket_centroids_B[(holo_name, holo_chain)] = pocket_centroid_b
 
         apo_B_pocket_missing_percentage[holo_name] = missing_percentage
+        
+        save_pymol_process(apo_group_id, apo_B_name, apo_B_chain, "B")
 
+        # pymol selectionの削除
+        cmd.delete(selection_name_apo_B_pocket_single)
+        cmd.delete(selection_name_apo_B_pocket_single_sub)
     
+    cmd.delete(selection_name_apo_B_pocket_merged)
+    cmd.delete("apo_B_protein")
     return pocket_rmsd_B, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage
 
 def create_mapping_from_mmcif_to_fasta(mmcif_path, chain_id):
@@ -437,6 +491,9 @@ def create_mapping_from_alignment(alignment, fasta_to_pdb_mapping_a, fasta_to_pd
 """
 
 def calculate_centroid(selection):
+    if selection == "":
+        print("selection query is empty --> return[0, 0, 0]")
+        centroid = [0, 0, 0]
     stored.xyz = [] # storedはpymolの組み込み変数
     cmd.iterate_state(1, selection, 'stored.xyz.append([x,y,z])') # 引数selectionに該当する各原子の座標をappend
     x, y, z = zip(*stored.xyz) # 各軸ごとに要素を取り出してx,y,zに格納

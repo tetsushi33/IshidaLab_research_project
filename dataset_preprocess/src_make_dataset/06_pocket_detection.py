@@ -18,7 +18,7 @@ apo_proteins_id_csv = pd.read_csv('../output_csv_files/phase_05/ver_1/apo_protei
 apo_holo_pairs_with_group_id_csv = pd.read_csv("../output_csv_files/phase_05/ver_1/apo_holo_pairs_with_group_id.csv")
 
 ## output
-output_csv_dir = "../output_csv_files/phase_06/ver_3"
+output_csv_dir = "../output_csv_files/phase_06/ver_4"
 log_dir = "../rmsd_culculating_log"
 
 colors = ["red", "green", "blue", "yellow", "orange", "purple"]
@@ -91,7 +91,7 @@ def main(start_id, end_id):
                 corresponding_holos = apo_holo_pairs_csv[apo_holo_pairs_csv['apo_name'].str.upper() == apo_B_name]['holo_name'].values
 
                 module_deciding_pockets.prepare_apo_B_for_pymol(apo_B_name, apo_B_chain)
-                rmsd_result_with_holo, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage = module_deciding_pockets.process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets)
+                rmsd_result_with_holo, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage = module_deciding_pockets.process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets, apo_group_id)
                 # pymolでの処理内容を保存
                 module_deciding_pockets.save_pymol_process(apo_group_id, apo_B_name, apo_B_chain, "B")
                 
