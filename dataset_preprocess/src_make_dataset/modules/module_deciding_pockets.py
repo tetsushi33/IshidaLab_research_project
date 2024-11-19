@@ -101,7 +101,7 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
 
     pocket_residues = {}
     pocket_residues_2 = {}
-    holo_to_pocket_selection = {}
+    mapping_holo_pocket_and_selection_name = {}
     rmsd_results = {}
     apo_pocket_loop_percentage = {}
     apo_pocket_missing_percentage = {}
@@ -153,33 +153,35 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
             missing_percentage = calculate_missing_coordinates_percentage(apo_A_cif_path, apo_A_chain, extract_residue_ids_from_query_revised(selection_query))
             apo_pocket_missing_percentage[holo_name] = missing_percentage
             # 
-            selection_query_of_apo_pocket = f"apo_pocket_from_{holo_name}_{apo_A_chain}"
-            cmd.select(selection_query_of_apo_pocket, selection_query)
-            selection_query_of_apo_pocket_sub = f"apo_pocket_sub_from_{holo_name}_{apo_A_chain}"
-            cmd.select(selection_query_of_apo_pocket_sub, f"apo_protein like {holo_name}_pocket and chain {holo_chain}")
+            selection_name_of_apo_pocket = f"apo_pocket_from_{holo_name}_{holo_chain}"
+            cmd.select(selection_name_of_apo_pocket, selection_query)
+            mapping_holo_pocket_and_selection_name[(holo_name, holo_chain)] = selection_name_of_apo_pocket
+
+            selection_name_of_apo_pocket_sub = f"apo_pocket_sub_from_{holo_name}_{apo_A_chain}"
+            cmd.select(selection_name_of_apo_pocket_sub, f"apo_protein like {holo_name}_pocket and chain {holo_chain}")
             
-            selected_count = cmd.count_atoms(selection_query_of_apo_pocket)
+            selected_count = cmd.count_atoms(selection_name_of_apo_pocket)
             #apo_pocket_loop_percentage[pocket_name] = calculate_apo_pocket_loop_percentage(f"apo_pocket_{pocket_name}")
 
             # アポ上のポケットの名前とそれに対応する残基番号を格納
-            #pocket_residues[selection_query_of_apo_pocket] = set(selected_numbers) 
+            #pocket_residues[selection_name_of_apo_pocket] = set(selected_numbers) 
             '''
             例： 'apo_pocket_from_4f5y_A': {('239', 'VAL'), ('171', 'ILE'), ...}
             '''
             stored.residues = []
-            cmd.iterate(selection_query_of_apo_pocket, "stored.residues.append((resi, resn))")
+            cmd.iterate(selection_name_of_apo_pocket, "stored.residues.append((resi, resn))")
             # `selected_numbers` を基にしてフィルタリング
             filtered_residues = [(resi, resn) for resi, resn in stored.residues if int(resi) in selected_numbers]
             # `pocket_residues` に格納
-            pocket_residues[selection_query_of_apo_pocket] = set(filtered_residues)
+            pocket_residues[selection_name_of_apo_pocket] = set(filtered_residues)
 
-            holo_to_pocket_selection[corresponding_holo_row['holo_name']] = selection_query_of_apo_pocket
+            
 
         ## -----RMSDの計算
         try:
             logging.info(f"holo_pocket_atom_count : {holo_pocket_atom_count}")
-            rmsd_pocket                 = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_query_of_apo_pocket,     cycles = 0), holo_pocket_atom_count)
-            rmsd_pocket_sub             = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_query_of_apo_pocket_sub, cycles = 0), holo_pocket_atom_count)
+            rmsd_pocket                 = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket,     cycles = 0), holo_pocket_atom_count)
+            rmsd_pocket_sub             = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket_sub, cycles = 0), holo_pocket_atom_count)
             rmsd_all_structure_in_chain = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", "apo_protein",                     cycles = 0), holo_pocket_atom_count)
             logging.info(f"rmsd_pocket: {rmsd_pocket}")
             logging.info(f"rmsd_pocket_sub: {rmsd_pocket_sub}")
@@ -219,9 +221,9 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
     # マージ後のポケットIDとその重心をまとめる
     merged_pocket_ids = {}
     pockets_centroid_results = {}
-    for holo_name, selection in holo_to_pocket_selection.items(): # (例)holo_to_pocket_selection:{'4f5y': 'apo_pocket_from_4f5y', '4loi': 'apo_pocket_from_4loi', '4loh': 'apo_pocket_from_4loh'}
+    for (holo_name, holo_chain), selection in mapping_holo_pocket_and_selection_name.items(): 
         merged_pocket_id = original_to_merged_pocket_id[selection]
-        merged_pocket_ids[holo_name] = merged_pocket_id
+        merged_pocket_ids[(holo_name, holo_chain)] = merged_pocket_id
         pockets_centroid_results[holo_name] = merged_pockets_centroids[merged_pocket_id]
     logging.info(f"merged_pocket_ids : {merged_pocket_ids}")
     
@@ -254,6 +256,7 @@ def save_pymol_process(group_id, apo_name, apo_chain, type):
 
 
 def prepare_apo_B_for_pymol(apo_B_name, apo_B_chain,):
+
     # アポBのFastaファイルをロード
     apo_B_cif_path = f"../mmcif/apo/{apo_B_name}.cif"
     cmd.load(apo_B_cif_path, 'apo_B_protein')
@@ -285,6 +288,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
     record_B = SeqIO.read(apo_B_fasta_path, "fasta")
     apo_B_seq = str(record_B.seq)
     apo_B_cif_path = f"../mmcif/apo/{apo_B_name}.cif"
+    apo_B_residue_numbers = get_residue_numbers_from_mmcif(f"../mmcif/apo/{apo_B_name}.cif", apo_B_chain)
     
     # アポAとBでアライメント
     fasta_pdb_mapping_apo_A = create_mapping_from_mmcif_to_fasta(apo_A_cif_path, apo_A_chain)
@@ -301,18 +305,19 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
     pocket_centroids_B = {}
     apo_B_pocket_missing_percentage = {}
     apo_B_pocket_loop_percentage = {}
-    for holo_name, pocket_id in merged_pocket_ids.items():
+    for (holo_name, holo_chain), pocket_id in merged_pocket_ids.items():
         logging.info("=======")
-        logging.info(f"merged pocket id : {pocket_id} (from {holo_name})")
-        ## アポB上でのポケット残基を決定
+        logging.info(f"merged pocket id : {pocket_id} (from {holo_name}_{holo_chain})")
+
+        ##-----アポB上でのポケット残基を決定
         if pocket_id in processed_pockets:
-            apo_B_selection_query = processed_pockets[pocket_id]
+            selection_query_merged_pocket = processed_pockets[pocket_id]
         else:
             # pocket_idに対応するポケットの残基を取得
             apo_A_pocket_residues = None
             for pid, residues in merged_pockets:
                 if pid == pocket_id:
-                    apo_A_pocket_residues = residues
+                    apo_A_pocket_residues = residues # マージ後のアポAの残基
 
             if apo_A_pocket_residues is None:
                 print(f"ポケットID{pocket_id}の残基がありません")
@@ -320,71 +325,70 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
                 continue
             
             apo_A_residues_mapped = [(apo_A_B_mapping[int(res[0])], res[1]) for res in apo_A_pocket_residues if int(res[0]) in apo_A_B_mapping]
-            apo_B_selection_query = " or ".join([f"chain {apo_B_chain} and resi {resi} and resn {resn}" for resi, resn in apo_A_residues_mapped])
-            processed_pockets[pocket_id] = apo_B_selection_query
-            cmd.select(f"apo_B_pocket_{pocket_id}", apo_B_selection_query)
-
-        ##-----RMSDの計算
-        if apo_B_selection_query is None:
-            print(f"アポB内に、ポケットID{pocket_id}に対応するセレクションが見つかりませんでした")
-            continue
-        
-        # 初期値は無限大に設定
-        rmsd_result_with_holo = float("inf")
-        rmsd_pocket_pid = float("inf")
-        rmsd_pocket_holo_align = float("inf")
-        rmsd_all = float("inf")
-        rmsd_pocket = float("inf")
-        missing_percentage = 0
-
-        cmd.select(f"apo_B_pocket_from_{holo_name}_like", f"apo_B_protein like {holo_name}_pocket")
+            selection_query_merged_pocket = " or ".join([f"chain {apo_B_chain} and resi {resi} and resn {resn}" for resi, resn in apo_A_residues_mapped])
+            processed_pockets[pocket_id] = selection_query_merged_pocket
+            selection_name_apo_B_pocket_merged = f"apo_B_pocket_from_merged_pocket_{pocket_id}"
+            cmd.select(selection_name_apo_B_pocket_merged, selection_query_merged_pocket)
 
         # ポケットが由来するホロ（ポケットデータ）ファイルの存在を確認
         pocket_path_refined = os.path.join(pdbbind_dir_refined, holo_name, f"{holo_name}_pocket.pdb")
         pocket_path_other = os.path.join(pdbbind_dir_other, holo_name, f"{holo_name}_pocket.pdb")
         holo_pocket_path = pocket_path_refined if os.path.exists(pocket_path_refined) else pocket_path_other if os.path.exists(pocket_path_other) else None
-        if holo_pocket_path:
-            holo_pocket_seq = get_sequence_from_pdb(holo_pocket_path)
-            alignment = align_sequences(apo_B_seq, holo_pocket_seq)
-            holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket")
+        if holo_pocket_path is None:
+            continue
+        holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket") # 原子数ちゃんとチェーン指定されている？
+        #holo_pocket_seq = get_sequence_from_pdb(holo_pocket_path) 
+        holo_pocket_seq_chain_selected = get_sequence_from_pdb_chain_selected(holo_pocket_path, holo_chain)
+        alignment = align_sequences(apo_B_seq, holo_pocket_seq_chain_selected)
+        # アポBとホロポケットを重ね合わせポケット位置を設定(個々のホロポケット由来であり、マージされたポケットではない)
+        selection_query_single_holo_pocket, _ = select_aligned_residues_and_store_numbers(apo_B_chain, alignment, apo_B_residue_numbers)
+        selection_name_apo_B_pocket_single = f"apo_B_pocket_from_{holo_name}_{holo_chain}_merged_pocket_{pocket_id}"
+        cmd.select(selection_name_apo_B_pocket_single, selection_query_single_holo_pocket)
+        
+        selection_name_apo_B_pocket_single_sub = f"apo_B_pocket_sub_from_{holo_name}_{holo_chain}_merged_pocket_{pocket_id}"
+        cmd.select(selection_name_apo_B_pocket_single_sub, f"apo_B_protein like {holo_name}_pocket and chain {holo_chain}")
+        #apo_B_pocket_loop_percentage[holo_name] = calculate_apo_pocket_loop_percentage(f"apo_B_pocket_from_{holo_name}")
 
-            # アポBとホロポケットを重ね合わせ位置をポケット位置を設定
-            apo_B_residue_numbers = get_residue_numbers_from_mmcif(f"../mmcif/apo/{apo_B_name}.cif", apo_B_chain)
-            selection_query_holo_pocket, _ = select_aligned_residues_and_store_numbers(apo_B_chain, alignment, apo_B_residue_numbers)
-            cmd.select(f"apo_B_pocket_from_{holo_name}", selection_query_holo_pocket)
-            apo_B_pocket_loop_percentage[holo_name] = calculate_apo_pocket_loop_percentage(f"apo_B_pocket_from_{holo_name}")
 
-            if selection_query_holo_pocket:
-                ## RMSDの計算
-                try:
-                    rmsd_pocket_holo_align = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", f"apo_B_pocket_from_{holo_name}", cycles=0), holo_pocket_atom_count)
-                    rmsd_pocket_holo = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", f"apo_B_pocket_from_{holo_name}_like", cycles=0), holo_pocket_atom_count)
-                except pymol.CmdException as e:
-                    print(f"Error aligning {holo_name} with apo_B_pocket_holo_align: {e}")
-                rmsd_result_with_holo = min(rmsd_pocket_holo, rmsd_pocket_holo_align)
-                # 欠損割合も計算
-                missing_percentage = calculate_missing_coordinates_percentage(apo_B_cif_path, apo_B_chain, extract_residue_ids_from_query(selection_query_holo_pocket))
-                
-        logging.info(f"rmsd_pocket_holo_align : {rmsd_pocket_holo_align}")
-        logging.info(f"rmsd_pocket_holo : {rmsd_pocket_holo}")
+        ##-----RMSDの計算
+        rmsd_merged_pocket = float("inf")
+        rmsd_single_holo_pocket = float("inf")
+        rmsd_single_holo_pocket_sub = float("inf")
+        rmsd_all = float("inf")
+        rmsd_result = float("inf")
+        missing_percentage = 0
+
+
 
         try:
-                rmsd_pocket_pid = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", apo_B_selection_query, cycles=0), holo_pocket_atom_count)
+            if selection_query_merged_pocket:
+                rmsd_merged_pocket = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged, cycles=0), holo_pocket_atom_count) # ここのholo_pocket_atom_countは違う！！要修正
+
+            if selection_query_single_holo_pocket:
+                rmsd_single_holo_pocket     = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single,     cycles=0), holo_pocket_atom_count)
+                rmsd_single_holo_pocket_sub = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single_sub, cycles=0), holo_pocket_atom_count)
+
+                #missing_percentage = calculate_missing_coordinates_percentage(apo_B_cif_path, apo_B_chain, extract_residue_ids_from_query(selection_query_holo_pocket))
+            rmsd_all = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein", cycles=0)      , holo_pocket_atom_count) # ここの"apo_B_protein"はチェーンはちゃんと片方で計算されるのか？ apo_Aの方も同じなのでどちらも確認する
         except pymol.CmdException as e:
-            print(f"Error aligning {holo_name} with {apo_B_selection_query}: {e}")
-        logging.info(f"rmsd_pocket_pid : {rmsd_pocket_pid}")
-        rmsd_result_with_holo = min(rmsd_result_with_holo, rmsd_pocket_pid)
-        try:
-                rmsd_all = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein", cycles=0), holo_pocket_atom_count)
-        except pymol.CmdException as e:
-            print(f"Error aligning {holo_name} with apo_B_protein: {e}")
+            print("pymol error ", e)
+
+        logging.info(f"rmsd_merged_pocket : {rmsd_merged_pocket}")
+        logging.info(f"rmsd_single_holo_pocket : {rmsd_single_holo_pocket}")
+        logging.info(f"rmsd_single_holo_pocket_sub : {rmsd_single_holo_pocket_sub}")
         logging.info(f"rmsd_all : {rmsd_all}")
-        rmsd_result_with_holo = min(rmsd_result_with_holo, rmsd_all)
 
-        pocket_rmsd_B[holo_name] = rmsd_result_with_holo
-        pocket_centroid_b = calculate_centroid(apo_B_selection_query)
-        pocket_centroids_B[holo_name] = pocket_centroid_b
+        rmsd_result = min(rmsd_merged_pocket, rmsd_single_holo_pocket)
+        rmsd_result = min(rmsd_result, rmsd_single_holo_pocket_sub)
+        rmsd_result = min(rmsd_result, rmsd_all)
+        pocket_rmsd_B[(holo_name, holo_chain)] = rmsd_result
+
+        # ポケット重心を計算（マージ後のアポAのポケットを使用）
+        pocket_centroid_b = calculate_centroid(selection_name_apo_B_pocket_merged)
+        pocket_centroids_B[(holo_name, holo_chain)] = pocket_centroid_b
+
         apo_B_pocket_missing_percentage[holo_name] = missing_percentage
+
     
     return pocket_rmsd_B, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage
 

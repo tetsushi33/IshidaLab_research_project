@@ -44,7 +44,7 @@ def main(start_id, end_id):
         # pymolでの処理内容を保存
         module_deciding_pockets.save_pymol_process(apo_group_id, apo_A_name, apo_A_chain, "A")
 
-        for holo_name, pocket_id in merged_pocket_ids.items():
+        for (holo_name, holo_chain), pocket_id in merged_pocket_ids.items():
             if holo_name in apo_holo_pairs_csv[apo_holo_pairs_csv['apo_name'].str.upper() == apo_A_name]['holo_name'].values:
                 # pocket_rmsdがinfの場合はスキップ
                 if rmsd_results.get(holo_name, 0) == float('inf'):
