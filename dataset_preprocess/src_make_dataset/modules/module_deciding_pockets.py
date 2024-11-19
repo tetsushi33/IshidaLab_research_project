@@ -179,23 +179,23 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
 
         ## -----RMSDの計算
         try:
-            logging.info(f"holo_pocket_atom_count : {holo_pocket_atom_count}")
             rmsd_pocket                 = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket,     cycles = 0), holo_pocket_atom_count)
             rmsd_pocket_sub             = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket_sub, cycles = 0), holo_pocket_atom_count)
             rmsd_all_structure_in_chain = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", "apo_protein",                     cycles = 0), holo_pocket_atom_count)
-            logging.info(f"rmsd_pocket: {rmsd_pocket}")
-            logging.info(f"rmsd_pocket_sub: {rmsd_pocket_sub}")
-            logging.info(f"rmsd_all_structure_in_chain: {rmsd_all_structure_in_chain}")
         except pymol.CmdException as e:
-            selection_temp = f"{holo_name}_pocket and chain {holo_chain}"
             print(f"pymol align error", type(e))
-            print(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            print(f"    holo {holo_name}_{holo_chain} : {holo_pocket_atom_count}")
             print(f"    apo_pocket atom count     : {cmd.count_atoms(selection_name_of_apo_pocket)}")
             print(f"    apo_pocket_sub atom count : {cmd.count_atoms(selection_name_of_apo_pocket_sub)}")
-            logging.error(f"pymol align error", type(e))
+            logging.error(f"pymol align error {type(e)}")
             logging.error(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
             logging.error(f"    apo_pocket atom count     : {cmd.count_atoms(selection_name_of_apo_pocket)}")
             logging.error(f"    apo_pocket_sub atom count : {cmd.count_atoms(selection_name_of_apo_pocket_sub)}")
+        selection_temp = "apo_protein"
+        logging.info(f"holo_pocket_atom_count : {holo_pocket_atom_count}")
+        logging.info(f"rmsd_pocket                 : {rmsd_pocket} | apo_pocket atom count        : {cmd.count_atoms(selection_name_of_apo_pocket)}")
+        logging.info(f"rmsd_pocket_sub             : {rmsd_pocket_sub} | apo_pocket_sub atom count    : {cmd.count_atoms(selection_name_of_apo_pocket_sub)}")
+        logging.info(f"rmsd_all_structure_in_chain : {rmsd_all_structure_in_chain} | apo all structure atom count : {cmd.count_atoms(selection_temp)}")
 
         rmsd_min = min(rmsd_pocket, rmsd_pocket_sub)
         rmsd_min = min(rmsd_min, rmsd_all_structure_in_chain)
@@ -228,8 +228,8 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         pockets_centroid_results[holo_name] = merged_pockets_centroids[merged_pocket_id]
     logging.info(f"merged_pocket_ids : {merged_pocket_ids}")
     
-    logging.info(f"--------------------代表アポの重ね合わせ完了--------------------")
-    logging.info("↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓代表以外のアポの処理↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓")
+    logging.info(f"----------------------------------------代表アポの重ね合わせ完了----------------------------------------")
+    logging.info("↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓代表以外のアポの処理↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓")
 
     return merged_pocket_ids, pockets_centroid_results, rmsd_results, merged_pockets, apo_pocket_missing_percentage
 
@@ -276,7 +276,8 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         merged pockets :  [(1, {('163', 'TYR'), ('51', 'LEU'), ('267', 'THR'),...}), (), ...] 
         merged pocket ids :  {'4f5y': 1, '4loi': 1, '4loh': 1}
     '''
-    logging.info("=================================================")
+    logging.info(" ")
+    logging.info("====================================================================================================")
     logging.info(f"apo B : {apo_B_name}_{apo_B_chain}")
     # アポAの配列情報
     apo_A_fasta_path = f"../data/fasta/apo/{apo_A_name}_{apo_A_chain}.fasta"
@@ -294,7 +295,11 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
     fasta_pdb_mapping_apo_A = create_mapping_from_mmcif_to_fasta(apo_A_cif_path, apo_A_chain)
     fasta_pdb_mapping_apo_B = create_mapping_from_mmcif_to_fasta(apo_B_cif_path, apo_B_chain)
     alignment = align_sequences(apo_A_seq, apo_B_seq)
+    #print(apo_A_cif_path)
+    #print(apo_B_cif_path)
+    #print(alignment)
     apo_A_B_mapping = create_mapping_from_alignment(alignment, fasta_pdb_mapping_apo_A, fasta_pdb_mapping_apo_B)
+    #print(apo_A_B_mapping)
 
     # apo_Bに対応するホロタンパク質を取得 (使っていないが！？)
     corresponding_holos = apo_holo_pairs_csv[apo_holo_pairs_csv['apo_name'].str.upper() == apo_B_name]['holo_name'].values
@@ -325,7 +330,8 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
                 continue
             
             apo_A_residues_mapped = [(apo_A_B_mapping[int(res[0])], res[1]) for res in apo_A_pocket_residues if int(res[0]) in apo_A_B_mapping]
-            selection_query_merged_pocket = " or ".join([f"chain {apo_B_chain} and resi {resi} and resn {resn}" for resi, resn in apo_A_residues_mapped])
+            selection_query_merged_pocket_0 = " or ".join([f"chain {apo_B_chain} and resi {resi} and resn {resn}" for resi, resn in apo_A_residues_mapped])
+            selection_query_merged_pocket = f"apo_B_protein and ({selection_query_merged_pocket_0})" # apo_B_ protein and を先頭に追加
             processed_pockets[pocket_id] = selection_query_merged_pocket
             selection_name_apo_B_pocket_merged = f"apo_B_pocket_from_merged_pocket_{pocket_id}"
             cmd.select(selection_name_apo_B_pocket_merged, selection_query_merged_pocket)
@@ -365,25 +371,26 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
             rmsd_single_holo_pocket_sub = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_single_sub, cycles=0), holo_pocket_atom_count)
             rmsd_all                    = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", "apo_B_protein"                       , cycles=0), holo_pocket_atom_count) 
         except pymol.CmdException as e:
-            selection_temp = f"{holo_name}_pocket and chain {holo_chain}"
-            selection_temp_2 = "apo_B_protein"
+            selection_temp = "apo_B_protein"
             print(f"pymol align error", type(e))
-            print(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            print(f"    holo {holo_name}_{holo_chain} : {holo_pocket_atom_count}")
             print(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
             print(f"    apo_B_pocket single atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_single)}")
             print(f"    apo_B_pocket single sun atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
-            print(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp_2)}")
-            logging.error(f"pymol align error", type(e))
-            logging.error(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            print(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp)}")
+            logging.error(f"pymol align error {type(e)}")
+            logging.error(f"    holo {holo_name}_{holo_chain} : {holo_pocket_atom_count}")
             logging.error(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
             logging.error(f"    apo_B_pocket single atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_single)}")
             logging.error(f"    apo_B_pocket single sun atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
-            logging.error(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp_2)}")
+            logging.error(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp)}")
 
-        logging.info(f"rmsd_merged_pocket : {rmsd_merged_pocket}")
-        logging.info(f"rmsd_single_holo_pocket : {rmsd_single_holo_pocket}")
-        logging.info(f"rmsd_single_holo_pocket_sub : {rmsd_single_holo_pocket_sub}")
-        logging.info(f"rmsd_all : {rmsd_all}")
+        selection_temp = "apo_B_protein"
+        logging.info(f"holo_pocket_atom_count : {holo_pocket_atom_count}")
+        logging.info(f"rmsd_merged_pocket          : {rmsd_merged_pocket} |apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+        logging.info(f"rmsd_single_holo_pocket     : {rmsd_single_holo_pocket} |apo_B_pocket single atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_single)}")
+        logging.info(f"rmsd_single_holo_pocket_sub : {rmsd_single_holo_pocket_sub} |apo_B_pocket single sun atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
+        logging.info(f"rmsd_all                    : {rmsd_all} |apo_B all structure atom count     : {cmd.count_atoms(selection_temp)}")
 
         rmsd_result = min(rmsd_merged_pocket, rmsd_single_holo_pocket)
         rmsd_result = min(rmsd_result, rmsd_single_holo_pocket_sub)
@@ -395,13 +402,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
 
         apo_B_pocket_missing_percentage[holo_name] = missing_percentage
         
-        save_pymol_process(apo_group_id, apo_B_name, apo_B_chain, "B")
-
-        # pymol selectionの削除
-        cmd.delete(selection_name_apo_B_pocket_single)
-        cmd.delete(selection_name_apo_B_pocket_single_sub)
-    
-    cmd.delete(selection_name_apo_B_pocket_merged)
+    save_pymol_process(apo_group_id, apo_B_name, apo_B_chain, "B")
     cmd.delete("apo_B_protein")
     return pocket_rmsd_B, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage
 
