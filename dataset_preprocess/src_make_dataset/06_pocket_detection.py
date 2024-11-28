@@ -31,7 +31,8 @@ def main(start_id, end_id):
         print(f"-----------Processing apo group {apo_group_id}...")
         # ログファイルの設定
         log_file_path = os.path.join(log_dir, f"group_id_{apo_group_id}")
-        module_deciding_pockets.logging_setting(log_file_path)
+        #module_deciding_pockets.logging_setting(log_file_path)
+        module_deciding_pockets.setup_logger(log_file_path)
         results = []
         cmd.reinitialize()
 
