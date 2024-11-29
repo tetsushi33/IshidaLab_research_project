@@ -215,8 +215,11 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         rmsd_all_structure_in_chain = float("inf")
         try:
             rmsd_pocket                 = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket,     cycles = 0), holo_pocket_atom_count)
+            #print("rmsd_pocket : ", cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket,     cycles = 0))
             rmsd_pocket_sub             = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket_sub, cycles = 0), holo_pocket_atom_count)
+            #print("rmsd_pocket_sub : ", cmd.align(f"{holo_name}_pocket and chain {holo_chain}", selection_name_of_apo_pocket_sub, cycles=5, cutoff=2.0))
             rmsd_all_structure_in_chain = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket and chain {holo_chain}", "apo_protein",                     cycles = 0), holo_pocket_atom_count)
+            #print("rmsd_all : ", cmd.align(f"{holo_name}_pocket and chain {holo_chain}", "apo_protein",                     cycles = 0))
         except pymol.CmdException as e:
             selection_temp = "apo_protein"
             print(f"pymol align error", type(e))
@@ -224,7 +227,7 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
             print(f"    apo_pocket atom count     : {cmd.count_atoms(selection_name_of_apo_pocket)}")
             print(f"    apo_pocket_sub atom count : {cmd.count_atoms(selection_name_of_apo_pocket_sub)}")
             logger.error(f"pymol align error {type(e)}")
-            logger.error(f"    holo {holo_name}_{holo_chain} : {cmd.count_atoms(selection_temp)}")
+            logger.error(f"    holo {holo_name}_{holo_chain} : {holo_pocket_atom_count}")
             logger.error(f"    apo_pocket atom count     : {cmd.count_atoms(selection_name_of_apo_pocket)}")
             logger.error(f"    apo_pocket_sub atom count : {cmd.count_atoms(selection_name_of_apo_pocket_sub)}")
         selection_temp = "apo_protein"
@@ -349,6 +352,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         ##-----アポB上でのポケット残基を決定
         rmsd_merged_pocket = float("inf")
         pocket_centroid_b = [0,0,0]
+        holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket and chain {holo_chain}") # チェーン指定
         if pocket_id in processed_pockets:
             selection_query_merged_pocket = processed_pockets[pocket_id]
         else:
@@ -364,8 +368,8 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
                 continue
             
             apo_A_residues_mapped = [(apo_A_B_mapping[int(res[0])], res[1]) for res in apo_A_pocket_residues if int(res[0]) in apo_A_B_mapping]
-            print(apo_A_B_mapping)
-            print(apo_A_residues_mapped)
+            #print(apo_A_B_mapping)
+            #print(apo_A_residues_mapped)
             selection_query_merged_pocket_0 = " or ".join([f"chain {apo_B_chain} and resi {resi} and resn {resn}" for resi, resn in apo_A_residues_mapped])
             if selection_query_merged_pocket_0:
                 selection_query_merged_pocket = f"apo_B_protein and ({selection_query_merged_pocket_0})" # apo_B_ protein and を先頭に追加
@@ -389,7 +393,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         holo_pocket_path = pocket_path_refined if os.path.exists(pocket_path_refined) else pocket_path_other if os.path.exists(pocket_path_other) else None
         if holo_pocket_path is None:
             continue
-        holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket and chain {holo_chain}") # チェーン指定
+        #holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket and chain {holo_chain}") # チェーン指定
         #holo_pocket_seq = get_sequence_from_pdb(holo_pocket_path) 
         holo_pocket_seq_chain_selected = get_sequence_from_pdb_chain_selected(holo_pocket_path, holo_chain)
         alignment = align_sequences(apo_B_seq, holo_pocket_seq_chain_selected)
