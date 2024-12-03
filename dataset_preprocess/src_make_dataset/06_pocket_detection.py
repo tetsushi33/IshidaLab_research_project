@@ -18,7 +18,7 @@ apo_proteins_id_csv = pd.read_csv('../output_csv_files/phase_05/ver_1/apo_protei
 apo_holo_pairs_with_group_id_csv = pd.read_csv("../output_csv_files/phase_05/ver_1/apo_holo_pairs_with_group_id.csv")
 
 ## output
-output_csv_dir = "../output_csv_files/phase_06/ver_4"
+output_csv_dir = "../output_csv_files/phase_06/ver_8"
 log_dir = "../rmsd_culculating_log"
 
 colors = ["red", "green", "blue", "yellow", "orange", "purple"]
@@ -38,6 +38,7 @@ def main(start_id, end_id):
 
         # グループ内の代表アポタンパク質の決定
         apo_A_name, apo_A_chain = module_deciding_pockets.deciding_apo_representitive(apo_group_id, apo_proteins_id_csv)
+        family50_id = apo_proteins_id_csv[(apo_proteins_id_csv['apo_name'] == apo_A_name) & (apo_proteins_id_csv['apo_chain'] == apo_A_chain)]['family50_id']
         # アポAと対応するホロの重ね合わせ
         module_deciding_pockets.prepare_apo_for_pymol(apo_A_name, apo_A_chain)
         
@@ -56,12 +57,13 @@ def main(start_id, end_id):
                     'apo_name': apo_A_name,
                     'apo_chain': apo_A_chain,
                     'holo_name': holo_name,
-                    'holo_chain': holo_info['holo_chain'],
+                    'holo_chain': holo_chain,
                     'pocket_id': pocket_id,
                     'pocket_rmsd': rmsd_results.get(holo_name, None),
                     'pocket_com': pockets_centroid_results.get(holo_name, None),
                     'protein_id': apo_group_id,
                     #'family50_id': apo_a_info['family50_id'],
+                    'family50_id': family50_id.values[0],
                     'ligand': holo_info['ligand'],
                     'ligand_atom_count': holo_info['ligand_atom_count'],
                     'apo_pocket_missing_percentage': apo_pocket_missing_percentage.get(holo_name, None),
@@ -90,37 +92,42 @@ def main(start_id, end_id):
 
                 # apo_Bに対応するホロタンパク質を取得
                 corresponding_holos = apo_holo_pairs_csv[apo_holo_pairs_csv['apo_name'].str.upper() == apo_B_name]['holo_name'].values
-
+                print("apo_B_name : ", apo_B_name)
                 module_deciding_pockets.prepare_apo_B_for_pymol(apo_B_name, apo_B_chain)
                 rmsd_result_with_holo, pocket_centroids_B, apo_B_pocket_loop_percentage, apo_B_pocket_missing_percentage = module_deciding_pockets.process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo_pairs_csv, merged_pocket_ids, merged_pockets, apo_group_id)
                 # pymolでの処理内容を保存
                 #module_deciding_pockets.save_pymol_process(apo_group_id, apo_B_name, apo_B_chain, "B")
-                
                 for holo_name in corresponding_holos:
-                    if holo_name in merged_pocket_ids:
+                    if any(holo_name == key[0] for key in merged_pocket_ids):
+                    #if holo_name in merged_pocket_ids:
                         # pocket_rmsdがinfの場合はスキップ
+                        #print("rmsd_result_with_holo : ", rmsd_result_with_holo)
+                        #print("pocekt_centroids_B : ", pocket_centroids_B)
+                        #print(" ")
                         if rmsd_result_with_holo.get(holo_name, 0) == float('inf'):
                             continue
                         holo_info = apo_holo_pairs_with_group_id_csv[apo_holo_pairs_with_group_id_csv['holo_name'] == holo_name].iloc[0]
+                        key = (holo_name, holo_info['holo_chain'])
                         result_b = {
                             'apo_name': apo_B_name,
                             'apo_chain': apo_B_chain,
                             'holo_name': holo_name,
                             'holo_chain': holo_info['holo_chain'],
                             'pocket_id': pocket_id,
-                            'pocket_rmsd': rmsd_result_with_holo.get(holo_name, None),
-                            'pocket_com': pocket_centroids_B.get(holo_name, None),
+                            'pocket_rmsd': rmsd_result_with_holo.get(key, None),
+                            'pocket_com': pocket_centroids_B.get(key, None),
                             'protein_id': apo_B['protein_id'],
                             'family50_id': apo_B['family50_id'],
                             'ligand': holo_info['ligand'],
                             'ligand_atom_count': holo_info['ligand_atom_count'],
                             'apo_pocket_missing_percentage': apo_B_pocket_missing_percentage.get(holo_name, None),
-                            'apo_loop_per': apo_B_pocket_loop_percentage.get(holo_name, None),
+                            #'apo_loop_per': apo_B_pocket_loop_percentage.get(holo_name, None),
                             'holo_loop_per': holo_info['loop_per']
                                     }
                         results.append(result_b)
         
         # 結果の保存
+        #print("results : ", results)
         if results:
             results_df = pd.DataFrame(results)
             if os.path.exists(output_csv_path):

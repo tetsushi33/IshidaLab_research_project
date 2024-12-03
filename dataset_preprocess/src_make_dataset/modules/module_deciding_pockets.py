@@ -355,6 +355,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         holo_pocket_atom_count = cmd.count_atoms(f"{holo_name}_pocket and chain {holo_chain}") # チェーン指定
         if pocket_id in processed_pockets:
             selection_query_merged_pocket = processed_pockets[pocket_id]
+            pocket_centroid_b = calculate_centroid(selection_query_merged_pocket)
         else:
             # pocket_idに対応するポケットの残基を取得
             apo_A_pocket_residues = None
