@@ -9,18 +9,18 @@ subdir = ["refined-set", "v2020-other-PL"]
 output_csv_dir = "../output_csv_files/"
 
 # output
-pocket_data_csv = os.path.join(output_csv_dir, "phase_01/ver_1/pocket_data.csv")
-no_dominant_chains_csv = os.path.join(output_csv_dir, "phase_01/ver_1/no_dominant_chains.csv")
+pocket_data_csv = os.path.join(output_csv_dir, "phase_01/ver_2/pocket_data.csv")
+no_dominant_chains_csv = os.path.join(output_csv_dir, "phase_01/ver_2/no_dominant_chains.csv")
 
 
 def main():
     # 保存先ディレクトリの確認
-    if not os.path.exists(pocket_data_csv):
-        print("No directory - ", pocket_data_csv)
-        return
-    if not os.path.exists(no_dominant_chains_csv):
-        print("No directory - ", no_dominant_chains_csv)
-        return
+    #if not os.path.exists(pocket_data_csv):
+    #    print("No directory - ", pocket_data_csv)
+    #    return
+    #if not os.path.exists(no_dominant_chains_csv):
+    #    print("No directory - ", no_dominant_chains_csv)
+    #    return
     print("=============ポケットデータパス取得=============")
     holo_pocket_paths = {}
     for dir in subdir:
@@ -57,7 +57,7 @@ def main():
             print("num of no dominant chain : ", len(no_dominant_chains_csv))
     else:
         with concurrent.futures.ProcessPoolExecutor() as executer:
-            results = list(tqdm(executer.map(module_search_apo.get_dominant_chain_2, holo_pocket_paths.values(), holo_pocket_paths.keys()), total=len(holo_pocket_paths)))
+            results = list(tqdm(executer.map(module_search_apo.get_dominant_chain, holo_pocket_paths.values(), holo_pocket_paths.keys()), total=len(holo_pocket_paths)))
             
             for pdb_id, result in zip(holo_pocket_paths.keys(), results):
                 dominant_chain, loop_percentage, ligand_name, ligand_size = result

@@ -5,9 +5,9 @@ import argparse
 import pandas as pd
 
 # input
-pocket_analysis_results = "../output_csv_files/phase_06/ver_7"
+pocket_analysis_results = "../output_csv_files/phase_06/ver_10"
 # output
-output_dir = "../output_csv_files/phase_07/ver_3"
+output_dir = "../output_csv_files/phase_07/ver_4"
 output_csv = os.path.join(output_dir, "max_pocket_rmsd_results.csv")
 output_csv_2 = os.path.join(output_dir, "max_pocket_rmsd_results_no_pocket_id.csv")
 

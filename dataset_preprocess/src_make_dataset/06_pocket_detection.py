@@ -18,7 +18,7 @@ apo_proteins_id_csv = pd.read_csv('../output_csv_files/phase_05/ver_1/apo_protei
 apo_holo_pairs_with_group_id_csv = pd.read_csv("../output_csv_files/phase_05/ver_1/apo_holo_pairs_with_group_id.csv")
 
 ## output
-output_csv_dir = "../output_csv_files/phase_06/ver_8"
+output_csv_dir = "../output_csv_files/phase_06/ver_10"
 log_dir = "../rmsd_culculating_log"
 
 colors = ["red", "green", "blue", "yellow", "orange", "purple"]

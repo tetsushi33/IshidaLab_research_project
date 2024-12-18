@@ -174,6 +174,9 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         #print(alignment)
 
         # ポケット対応残基の決定
+        #print("----------------------")
+        #print(f"apo_A_name : {apo_A_name}, apo_A_chain : {apo_A_chain}")
+        #print(f"holo_name : {holo_name}, holo_chain : {holo_chain}")
         selection_query, selected_numbers = select_aligned_residues_and_store_numbers_for_local(apo_A_chain, alignment, apo_residue_numbers)
         #print(selection_query)
 
@@ -183,6 +186,7 @@ def overlap_apoA_and_holos(apo_group_id, apo_A_name, apo_A_chain, apo_holo_pairs
         else:
             # 欠損座標割合の計算
             missing_percentage = calculate_missing_coordinates_percentage(apo_A_cif_path, apo_A_chain, extract_residue_ids_from_query_revised(selection_query))
+            print(f"missing_percentage : {missing_percentage}")
             apo_pocket_missing_percentage[holo_name] = missing_percentage
             # 
             selection_name_of_apo_pocket = f"apo_pocket_from_{holo_name}_{holo_chain}"
@@ -335,6 +339,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
     fasta_pdb_mapping_apo_B = create_mapping_from_mmcif_to_fasta(apo_B_cif_path, apo_B_chain)
     alignment = align_sequences(apo_A_seq, apo_B_seq)
     apo_A_B_mapping = create_mapping_from_alignment(alignment, fasta_pdb_mapping_apo_A, fasta_pdb_mapping_apo_B)
+    #print(apo_A_B_mapping)
 
     # apo_Bに対応するホロタンパク質を取得 (使っていないが！？)
     corresponding_holos = apo_holo_pairs_csv[apo_holo_pairs_csv['apo_name'].str.upper() == apo_B_name]['holo_name'].values
@@ -356,6 +361,10 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         if pocket_id in processed_pockets:
             selection_query_merged_pocket = processed_pockets[pocket_id]
             pocket_centroid_b = calculate_centroid(selection_query_merged_pocket)
+
+            selection_query_merged_pocket = processed_pockets[pocket_id]
+            selection_name_apo_B_pocket_merged = f"apo_B_pocket_from_merged_pocket_{pocket_id}"
+            cmd.select(selection_name_apo_B_pocket_merged, selection_query_merged_pocket)
         else:
             # pocket_idに対応するポケットの残基を取得
             apo_A_pocket_residues = None
@@ -369,25 +378,30 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
                 continue
             
             apo_A_residues_mapped = [(apo_A_B_mapping[int(res[0])], res[1]) for res in apo_A_pocket_residues if int(res[0]) in apo_A_B_mapping]
-            #print(apo_A_B_mapping)
-            #print(apo_A_residues_mapped)
             selection_query_merged_pocket_0 = " or ".join([f"chain {apo_B_chain} and resi {resi} and resn {resn}" for resi, resn in apo_A_residues_mapped])
             if selection_query_merged_pocket_0:
                 selection_query_merged_pocket = f"apo_B_protein and ({selection_query_merged_pocket_0})" # apo_B_ protein and を先頭に追加
                 processed_pockets[pocket_id] = selection_query_merged_pocket
                 selection_name_apo_B_pocket_merged = f"apo_B_pocket_from_merged_pocket_{pocket_id}"
                 cmd.select(selection_name_apo_B_pocket_merged, selection_query_merged_pocket)
-                try:
-                    rmsd_merged_pocket          = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged,     cycles=0), holo_pocket_atom_count) 
-                    logger.info(f"rmsd_merged_pocket          : {rmsd_merged_pocket} |apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
-                    pocket_centroid_b = calculate_centroid(selection_query_merged_pocket)
-                except pymol.CmdException as e:
-                    print(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
-                    logger.error(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+                #try:
+                #    rmsd_merged_pocket          = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged,     cycles=0), holo_pocket_atom_count) 
+                #    logger.info(f"rmsd_merged_pocket          : {rmsd_merged_pocket} |apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+                #    pocket_centroid_b = calculate_centroid(selection_query_merged_pocket)
+                #except pymol.CmdException as e:
+                #    print(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+                #    logger.error(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
             else:
-                
+                selection_name_apo_B_pocket_merged = f"apo_B_pocket_from_merged_pocket_{pocket_id}"
                 selection_query_merged_pocket = selection_query_merged_pocket_0
             
+        try:
+            rmsd_merged_pocket          = calculate_rmsd_if_aligned_enough(cmd.align(f"{holo_name}_pocket", selection_name_apo_B_pocket_merged,     cycles=0), holo_pocket_atom_count) 
+            logger.info(f"rmsd_merged_pocket          : {rmsd_merged_pocket} |apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+            pocket_centroid_b = calculate_centroid(selection_query_merged_pocket)
+        except pymol.CmdException as e:
+            print(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
+            logger.error(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
         # ポケットが由来するホロ（ポケットデータ）ファイルの存在を確認
         pocket_path_refined = os.path.join(pdbbind_dir_refined, holo_name, f"{holo_name}_pocket.pdb")
         pocket_path_other = os.path.join(pdbbind_dir_other, holo_name, f"{holo_name}_pocket.pdb")
@@ -399,7 +413,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
         holo_pocket_seq_chain_selected = get_sequence_from_pdb_chain_selected(holo_pocket_path, holo_chain)
         alignment = align_sequences(apo_B_seq, holo_pocket_seq_chain_selected)
         # アポBとホロポケットを重ね合わせポケット位置を設定(個々のホロポケット由来であり、マージされたポケットではない)
-        selection_query_single_holo_pocket, _ = select_aligned_residues_and_store_numbers(apo_B_chain, alignment, apo_B_residue_numbers)
+        selection_query_single_holo_pocket, _ = select_aligned_residues_and_store_numbers_for_B(apo_B_chain, alignment, apo_B_residue_numbers)
         selection_name_apo_B_pocket_single = f"apo_B_pocket_from_{holo_name}_{holo_chain}_merged_pocket_{pocket_id}"
         cmd.select(selection_name_apo_B_pocket_single, selection_query_single_holo_pocket)
         
@@ -426,13 +440,13 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
             print(f"    holo {holo_name}_{holo_chain} : {holo_pocket_atom_count}")
             #print(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
             print(f"    apo_B_pocket single atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_single)}")
-            print(f"    apo_B_pocket single sun atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
+            print(f"    apo_B_pocket single sub atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
             print(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp)}")
             logger.error(f"pymol align error {type(e)}")
             logger.error(f"    holo {holo_name}_{holo_chain} : {holo_pocket_atom_count}")
             #logger.error(f"    apo_B_pocket merged atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_merged)}")
             logger.error(f"    apo_B_pocket single atom count     : {cmd.count_atoms(selection_name_apo_B_pocket_single)}")
-            logger.error(f"    apo_B_pocket single sun atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
+            logger.error(f"    apo_B_pocket single sub atom count : {cmd.count_atoms(selection_name_apo_B_pocket_single_sub)}")
             logger.error(f"    apo_B all structure atom count     : {cmd.count_atoms(selection_temp)}")
 
         selection_temp = "apo_B_protein"
@@ -459,6 +473,7 @@ def process_for_apo_B(apo_A_name, apo_A_chain, apo_B_name, apo_B_chain, apo_holo
 def create_mapping_from_mmcif_to_fasta(mmcif_path, chain_id):
     """
     mmCIFファイルからFASTAシーケンスへのマッピングを生成する関数
+    FASTA位置とPDB残基番号の対応を取得（辞書型） 
     """
     parser = MMCIFParser(QUIET=True)
     structure = parser.get_structure("protein", mmcif_path)
@@ -589,16 +604,21 @@ def align_sequences(seq1, seq2):
     aligner = PairwiseAligner()
     aligner.mode = 'local'
     # スコアリングの調整
-    aligner.match_score = 2         # 一致部分に対するスコア
-    aligner.mismatch_score = -1     # 不一致部分に対するペナルティ
-    aligner.open_gap_score = -2     # ギャップ開始のペナルティ
-    aligner.extend_gap_score = -0.5 # ギャップ延長のペナルティ
+    #aligner.match_score = 2         # 一致部分に対するスコア
+    #aligner.mismatch_score = -1     # 不一致部分に対するペナルティ
+    #aligner.open_gap_score = -2     # ギャップ開始のペナルティ
+    #aligner.extend_gap_score = -0.5 # ギャップ延長のペナルティ
+    
+    aligner.match_score = 3         # 一致スコアを高めに
+    aligner.mismatch_score = -1     # 不一致ペナルティをやや緩和
+    aligner.open_gap_score = -1     # ギャップ開始ペナルティ
+    aligner.extend_gap_score = -0.1   # ギャップ延長ペナルティをさらに高く
 
     alignments = aligner.align(seq1, seq2)
     best_alignment = alignments[0]
     return best_alignment
 
-def select_aligned_residues_and_store_numbers(apo_chain_id, alignment, apo_residue_numbers):
+def select_aligned_residues_and_store_numbers_for_B(apo_chain_id, alignment, apo_residue_numbers):
     '''
     アライメント結果の一致部分から、ポケットとする残基を決める
     返り値
@@ -608,13 +628,16 @@ def select_aligned_residues_and_store_numbers(apo_chain_id, alignment, apo_resid
     selected_residue_numbers = []
     query = []
 
-    apo_index = 0
+    #print("-----------------")
+    #print("alignment : ", alignment)
+    #print("apo_residue_numbers : ", apo_residue_numbers)
+    apo_index = alignment.aligned[0][0][0]
     holo_index = 0
 
     for apo_res, holo_res in zip(alignment[0], alignment[1]): # alignment[0]:target配列, alignment[1]:query配列
         if apo_res != "-" and holo_res != "-": # 残基が一致した場合
             # Both residues are aligned
-            query.append(f"(chain {apo_chain_id} and resi {apo_residue_numbers[apo_index]})") # pymol用のクエリを作成してappend
+            query.append(f"(apo_B_protein and chain {apo_chain_id} and resi {apo_residue_numbers[apo_index]})") # pymol用のクエリを作成してappend
             # 例："chain A and resi 34"
             selected_residue_numbers.append(apo_residue_numbers[apo_index])
 
@@ -634,6 +657,7 @@ def select_aligned_residues_and_store_numbers_for_local(apo_chain_id, alignment,
     '''
     selected_residue_numbers = []
     query = []
+    
 
     apo_index = alignment.aligned[0][0][0]
     holo_index = 0

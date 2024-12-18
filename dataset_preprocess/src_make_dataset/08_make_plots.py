@@ -6,12 +6,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # input
-input_dir = "../output_csv_files/phase_07/ver_2"
-input_csv = os.path.join(input_dir, "max_pocket_rmsd_results.csv")
+input_dir = "../output_csv_files/phase_07/ver_4"
+input_csv = os.path.join(input_dir, "max_pocket_rmsd_results1.csv")
 
 # output
 output_dir = "../output_csv_files/phase_08/ver_1"
-output_file = os.path.join(output_dir, "result_max_rmsd_plot_4.png")
+output_file = os.path.join(output_dir, "result_max_rmsd_plot_5.png")
 
 def main():
     df = pd.read_csv(input_csv)

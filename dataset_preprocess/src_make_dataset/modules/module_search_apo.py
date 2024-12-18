@@ -58,20 +58,28 @@ def get_dominant_chain(pocket_file_path, pdb_id):
         cmd.load(full_structure_file_path, "full_structure") # パスを"full_structure"という名前でロード
 
         # Get all atoms in the pocket
-        pocket_atoms = [atom for atom in cmd.get_model("pocket").atom]
+        #pocket_atoms = [atom for atom in cmd.get_model("pocket").atom]
+        pocket_atoms = [
+            atom for atom in cmd.get_model("pocket").atom 
+            if atom.resn != "HOH"  # 水分子を除外
+        ]
         pocket_length = len(pocket_atoms)
-        #print("pocket length: ", pocket_length)
         
         # ポケットを含むチェーンを取得
         chains_including_pocket = list(set([atom.chain for atom in cmd.get_model("pocket").atom if atom.chain.strip()])) 
-        overlapping_chains = []
+        overlapping_chains_atoms = {}
         for chain in chains_including_pocket:
-            if cmd.count_atoms(f"pocket and chain {chain} like full_structure"):
-                '''
-                pocketとchain{}を含むfull_structure内の原子をカウント
-                0でない=ポケットがかかっているチェーン
-                '''
-                overlapping_chains.append(chain)
+            #atom_count_on_chain = cmd.count_atoms(f"pocket and chain {chain} like full_structure")
+            atom_count_on_chain = cmd.count_atoms(f"pocket and chain {chain}")
+            overlapping_chains_atoms[chain] = atom_count_on_chain
+        #overlapping_chains = []
+        #for chain in chains_including_pocket:
+        #    if cmd.count_atoms(f"pocket and chain {chain} like full_structure"):
+        #        '''
+        #        pocketとchain{}を含むfull_structure内の原子をカウント
+        #        0でない=ポケットがかかっているチェーン
+        #        '''
+        #        overlapping_chains.append(chain)
 
         # ループ領域の%を計算
         cmd.select("holo_pocket", f"full_structure like pocket")
@@ -83,22 +91,12 @@ def get_dominant_chain(pocket_file_path, pdb_id):
         #print("overlapping_chains: ",overlapping_chains)
         #print("loop per: ",loop_per)
 
-        if not overlapping_chains:
+        if max(overlapping_chains_atoms.values()) == 0:
             print(f"No overlapping chains found for {pocket_file_path}")
             return None, None, None, None
 
-        # ポケットに属する原子がそれぞれどのチェーンに属しているのか（chain_id, 原子数 のセット）
-        chain_counts = {}
-        for atom in pocket_atoms:
-            chain_id = atom.chain
-            if chain_id in chain_counts:
-                chain_counts[chain_id] += 1
-            else:
-                chain_counts[chain_id] = 1
-        #print(chain_counts)
-
-        dominant_chain = max(chain_counts, key=chain_counts.get)
-
+        dominant_chain = max(overlapping_chains_atoms, key=overlapping_chains_atoms.get)
+        
         ## 空のチェーンIDを持つ原子の詳細を表示(確認用)
         #empty_chain_atoms = [atom for atom in pocket_atoms if atom.chain == '']
         #if empty_chain_atoms:
@@ -109,7 +107,7 @@ def get_dominant_chain(pocket_file_path, pdb_id):
         cmd.delete("all")
         # Get ligand information from all chains and select the largest one
         ligands = []
-        for chain_id in overlapping_chains:
+        for chain_id in overlapping_chains_atoms.keys():
             ligand_name, atom_count = check_ligand_info_mmcif_inner(full_structure_file_path, pdb_id)
             if ligand_name:  # Check if ligand_name is not an empty string
                 ligands.append((ligand_name, atom_count))
@@ -118,7 +116,7 @@ def get_dominant_chain(pocket_file_path, pdb_id):
         #print(dominant_ligand)
         #print(dominant_ligand_size)
 
-        if chain_counts[dominant_chain] / pocket_length >= 0.9:
+        if overlapping_chains_atoms[dominant_chain] / pocket_length >= 0.9:
             # ドミナント率が90%以上の場合のみ許す
             return dominant_chain, loop_per, dominant_ligand, dominant_ligand_size
         else:
